@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Menu, 
@@ -25,8 +25,13 @@ import { portfolioConfig } from '@/config/portfolio';
 const AdminSidebar = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const handleLogout = () => {
     localStorage.removeItem('admin_auth');
@@ -109,21 +114,27 @@ const AdminSidebar = () => {
       {/* Mobile Sidebar Overlay */}
       <AnimatePresence>
         {isMobileOpen && (
-          <>
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={() => setIsMobileOpen(false)}
-              className="md:hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-[110]"
-            />
-            <motion.aside
-              initial={{ x: '-100%' }}
-              animate={{ x: 0 }}
-              exit={{ x: '-100%' }}
-              transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-              className="md:hidden fixed left-0 top-0 h-full w-72 bg-card border-r border-white/10 z-[120] flex flex-col shadow-2xl"
-            >
+          <motion.div
+            key="mobile-overlay"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setIsMobileOpen(false)}
+            className="md:hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-[110]"
+          />
+        )}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {isMobileOpen && (
+          <motion.aside
+            key="mobile-sidebar"
+            initial={{ x: '-100%' }}
+            animate={{ x: 0 }}
+            exit={{ x: '-100%' }}
+            transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+            className="md:hidden fixed left-0 top-0 h-full w-72 bg-card border-r border-white/10 z-[120] flex flex-col shadow-2xl"
+          >
               <div className="p-6 border-b border-white/5 flex items-center justify-between">
                 <Link href="/admin" className="text-xl font-black tracking-tighter">
                   <span className="text-primary">ADMIN</span>PANEL

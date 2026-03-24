@@ -268,8 +268,9 @@ export default function FollowMeSettings() {
                       {/* Edit Modal */}
                       <AnimatePresence>
                         {isEditing && (
-                          <div className="fixed inset-0 z-[110] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+                          <div key={`edit-modal-${index}`} className="fixed inset-0 z-[110] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
                             <motion.div 
+                              key={`modal-content-${index}`}
                               initial={{ opacity: 0, scale: 0.95 }}
                               animate={{ opacity: 1, scale: 1 }}
                               exit={{ opacity: 0, scale: 0.95 }}

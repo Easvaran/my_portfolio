@@ -209,8 +209,9 @@ export default function MessagesPage() {
       {/* Edit Modal */}
       <AnimatePresence>
         {showModal && (
-          <div className="fixed inset-0 z-[150] flex items-center justify-center p-6">
+          <div key="edit-modal-container" className="fixed inset-0 z-[150] flex items-center justify-center p-6">
             <motion.div
+              key="edit-modal-overlay"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
@@ -218,6 +219,7 @@ export default function MessagesPage() {
               className="absolute inset-0 bg-black/90 backdrop-blur-md"
             />
             <motion.div
+              key="edit-modal-content"
               initial={{ opacity: 0, scale: 0.9, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.9, y: 20 }}
@@ -291,8 +293,9 @@ export default function MessagesPage() {
       {/* Delete Confirmation Modal */}
       <AnimatePresence>
         {showDeleteModal && (
-          <div className="fixed inset-0 z-[200] flex items-center justify-center p-6">
+          <div key="delete-modal-container" className="fixed inset-0 z-[200] flex items-center justify-center p-6">
             <motion.div
+              key="delete-modal-overlay"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
@@ -300,6 +303,7 @@ export default function MessagesPage() {
               className="absolute inset-0 bg-black/90 backdrop-blur-md"
             />
             <motion.div
+              key="delete-modal-content"
               initial={{ opacity: 0, scale: 0.9, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.9, y: 20 }}

@@ -424,12 +424,21 @@ export default function SettingsPage() {
       {/* Admin Management Modal */}
       <AnimatePresence>
         {isModalOpen && (
-          <div className="fixed inset-0 z-[110] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
-            <motion.div 
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.95 }}
-              className="w-full max-w-md p-8 rounded-[40px] bg-card border border-white/10 shadow-2xl space-y-6"
+          <div key="settings-modal-container" className="fixed inset-0 z-[150] flex items-center justify-center p-6">
+            <motion.div
+              key="settings-modal-overlay"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setIsModalOpen(false)}
+              className="absolute inset-0 bg-black/90 backdrop-blur-md"
+            />
+            <motion.div
+              key="settings-modal-content"
+              initial={{ opacity: 0, scale: 0.9, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.9, y: 20 }}
+              className="relative w-full max-w-md bg-card border border-white/10 rounded-[48px] shadow-2xl overflow-hidden p-10"
             >
               <div className="flex justify-between items-center mb-4">
                 <div>
