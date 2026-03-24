@@ -5,7 +5,6 @@ import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import { Mail, Loader2, ArrowLeft, User, Calendar, Trash2, Edit3, X, Send, AlertTriangle } from 'lucide-react';
-import AdminSidebar from '@/components/AdminSidebar';
 
 interface Message {
   _id: string;
@@ -35,12 +34,8 @@ export default function MessagesPage() {
   const password = typeof window !== 'undefined' ? localStorage.getItem('admin_auth') : null;
 
   useEffect(() => {
-    if (!password) {
-      router.push('/admin/login');
-      return;
-    }
     fetchMessages();
-  }, [password, router]);
+  }, []);
 
   const fetchMessages = async () => {
     try {
@@ -125,92 +120,91 @@ export default function MessagesPage() {
   };
 
   return (
-    <div className="min-h-screen bg-background text-foreground flex">
-      <AdminSidebar />
-      <main className="flex-grow p-6 md:p-12 md:ml-64 transition-all duration-300">
-        <div className="max-w-5xl mx-auto">
-          <div className="mb-8">
-            <Link 
-              href="/admin"
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white/5 border border-white/10 text-muted-foreground hover:text-white hover:bg-white/10 transition-all text-sm font-bold group"
-            >
-              <ArrowLeft size={18} className="group-hover:-translate-x-1 transition-transform" />
-              Back to Dashboard
-            </Link>
-          </div>
-
-          <div className="flex items-center gap-4 mb-10">
-            <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center text-primary shadow-inner shadow-primary/20">
-              <Mail size={24} strokeWidth={2.5} />
-            </div>
-            <div>
-              <h1 className="text-3xl font-black tracking-tight text-white">Inbox</h1>
-              <p className="text-muted-foreground text-sm font-medium">Client messages and inquiries</p>
-            </div>
-          </div>
-
-          {loading ? (
-            <div className="flex justify-center py-20">
-              <Loader2 className="animate-spin text-primary" size={48} />
-            </div>
-          ) : error ? (
-            <div className="text-center py-20 text-red-400">
-              <p>{error}</p>
-            </div>
-          ) : messages.length === 0 ? (
-            <div className="text-center py-32 bg-card/20 rounded-[64px] border border-dashed border-white/10 mt-12 shadow-inner">
-                <h2 className="text-3xl font-black text-white mb-3">Inbox Zero!</h2>
-                <p className="text-muted-foreground mt-2 font-medium">No new messages at the moment.</p>
-            </div>
-          ) : (
-            <div className="space-y-6">
-              {messages.map((msg, index) => (
-                <motion.div
-                  key={msg._id}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.05 }}
-                  className="p-8 rounded-[32px] bg-card border border-white/10 shadow-lg shadow-black/20 group relative"
-                >
-                  <div className="absolute top-6 right-6 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <button 
-                      onClick={() => openEditModal(msg)}
-                      className="p-2.5 bg-white/5 hover:bg-primary/20 hover:text-primary rounded-xl border border-white/10 transition-all"
-                    >
-                      <Edit3 size={16} />
-                    </button>
-                    <button 
-                      onClick={() => confirmDelete(msg._id)}
-                      className="p-2.5 bg-white/5 hover:bg-red-500/20 hover:text-red-500 rounded-xl border border-white/10 transition-all"
-                    >
-                      <Trash2 size={16} />
-                    </button>
-                  </div>
-
-                  <div className="flex justify-between items-start mb-4">
-                    <div className="flex items-center gap-4">
-                      <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold text-lg">
-                        {msg.name.charAt(0).toUpperCase()}
-                      </div>
-                      <div>
-                        <h3 className="font-bold text-lg text-white">{msg.name}</h3>
-                        <a href={`mailto:${msg.email}`} className="text-sm text-primary hover:underline">{msg.email}</a>
-                      </div>
-                    </div>
-                    <div className="text-xs text-muted-foreground font-medium flex items-center gap-2 pr-20">
-                      <Calendar size={14} />
-                      {new Date(msg.createdAt).toLocaleString()}
-                    </div>
-                  </div>
-                  <p className="text-secondary leading-relaxed bg-white/5 p-6 rounded-2xl border border-white/10">
-                    {msg.message}
-                  </p>
-                </motion.div>
-              ))}
-            </div>
-          )}
+    <div className="p-6 md:p-12 transition-all duration-300">
+      <div className="max-w-5xl mx-auto">
+        <div className="mb-8">
+          <Link 
+            href="/admin"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white/5 border border-white/10 text-muted-foreground hover:text-white hover:bg-white/10 transition-all text-sm font-bold group"
+          >
+            <ArrowLeft size={18} className="group-hover:-translate-x-1 transition-transform" />
+            Back to Dashboard
+          </Link>
         </div>
-      </main>
+
+        <div className="flex items-center gap-4 mb-10">
+          <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center text-primary shadow-inner shadow-primary/20">
+            <Mail size={24} strokeWidth={2.5} />
+          </div>
+          <div>
+            <h1 className="text-3xl font-black tracking-tight text-white">Inbox</h1>
+            <p className="text-muted-foreground text-sm font-medium">Client messages and inquiries</p>
+          </div>
+        </div>
+
+        {loading ? (
+          <div className="flex justify-center py-20">
+            <Loader2 className="animate-spin text-primary" size={48} />
+          </div>
+        ) : error ? (
+          <div className="text-center py-20 text-red-400">
+            <p>{error}</p>
+          </div>
+        ) : messages.length === 0 ? (
+          <div className="text-center py-32 bg-card/20 rounded-[64px] border border-dashed border-white/10 mt-12 shadow-inner">
+              <h2 className="text-3xl font-black text-white mb-3">Inbox Zero!</h2>
+              <p className="text-muted-foreground mt-2 font-medium">No new messages at the moment.</p>
+          </div>
+        ) : (
+          <div className="space-y-6">
+            {messages.map((msg, index) => (
+              <motion.div
+                key={msg._id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.05 }}
+                className="p-8 rounded-[32px] bg-card border border-white/10 shadow-lg shadow-black/20 group relative"
+              >
+                <div className="absolute top-6 right-6 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <button 
+                    onClick={() => openEditModal(msg)}
+                    className="p-2.5 bg-white/5 hover:bg-primary/20 hover:text-primary rounded-xl border border-white/10 transition-all"
+                  >
+                    <Edit3 size={16} />
+                  </button>
+                  <button 
+                    onClick={() => confirmDelete(msg._id)}
+                    className="p-2.5 bg-white/5 hover:bg-red-500/20 hover:text-red-500 rounded-xl border border-white/10 transition-all"
+                  >
+                    <Trash2 size={16} />
+                  </button>
+                </div>
+
+                <div className="flex justify-between items-start mb-4">
+                  <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold text-lg">
+                      {msg.name.charAt(0).toUpperCase()}
+                    </div>
+                    <div>
+                      <h3 className="font-bold text-lg text-white">{msg.name}</h3>
+                      <a href={`mailto:${msg.email}`} className="text-sm text-primary hover:underline">{msg.email}</a>
+                    </div>
+                  </div>
+                  <div className="text-xs text-muted-foreground font-medium flex items-center gap-2 pr-20">
+                    <Calendar size={14} />
+                    {new Date(msg.createdAt).toLocaleString()}
+                  </div>
+                </div>
+                <p className="text-secondary leading-relaxed bg-white/5 p-6 rounded-2xl border border-white/10">
+                  {msg.message}
+                </p>
+              </motion.div>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  );
 
       {/* Edit Modal */}
       <AnimatePresence>

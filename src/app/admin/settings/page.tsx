@@ -26,7 +26,6 @@ import {
   EyeOff,
   Upload
 } from 'lucide-react';
-import AdminSidebar from '@/components/AdminSidebar';
 
 export default function SettingsPage() {
   const [loading, setLoading] = useState(false);
@@ -51,13 +50,9 @@ export default function SettingsPage() {
   const password = typeof window !== 'undefined' ? localStorage.getItem('admin_auth') : null;
 
   useEffect(() => {
-    if (!password) {
-      router.push('/admin/login');
-      return;
-    }
     fetchAdmins();
     fetchBranding();
-  }, [password, router]);
+  }, []);
 
   const fetchBranding = async () => {
     try {
@@ -216,48 +211,53 @@ export default function SettingsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-background text-foreground flex">
-      <AdminSidebar />
-      
-      <main className="flex-grow p-6 md:p-12 md:ml-64 transition-all duration-300">
-        <div className="max-w-4xl mx-auto">
-          {/* Back to Home Button */}
-          <div className="mb-8">
-            <Link 
-              href="/"
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white/5 border border-white/10 text-muted-foreground hover:text-white hover:bg-white/10 transition-all text-sm font-bold group"
-            >
-              <ArrowLeft size={18} className="group-hover:-translate-x-1 transition-transform" />
-              Back to Home
-            </Link>
-          </div>
-
-          {/* Header */}
-          <div className="flex items-center gap-4 mb-12 border-b border-white/5 pb-8">
+    <div className="p-6 md:p-12 transition-all duration-300">
+      <div className="max-w-6xl mx-auto">
+        {/* Header Section */}
+        <div className="flex flex-col md:flex-row justify-between items-center mb-10 gap-6 border-b border-white/5 pb-8">
+          <div className="flex items-center gap-4">
             <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center text-primary shadow-inner shadow-primary/20">
               <Settings size={24} strokeWidth={2.5} />
             </div>
             <div>
               <h1 className="text-3xl font-black tracking-tight text-white">System Settings</h1>
-              <p className="text-muted-foreground text-sm font-medium">Manage your portfolio's core configuration</p>
+              <p className="text-muted-foreground text-sm font-medium">Configure your portfolio and administrative preferences</p>
             </div>
           </div>
-
-          {message && (
-            <motion.div 
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              className={`mb-8 p-4 rounded-2xl border flex items-center gap-3 ${
-                message.type === 'success' ? 'bg-green-500/10 border-green-500/20 text-green-500' : 'bg-red-500/10 border-red-500/20 text-red-500'
-              }`}
+          
+          <div className="flex items-center gap-4">
+            <Link 
+              href="/admin"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white/5 border border-white/10 text-muted-foreground hover:text-white hover:bg-white/10 transition-all text-sm font-bold group"
             >
-              {message.type === 'success' ? <CheckCircle2 size={18} /> : <AlertCircle size={18} />}
-              <p className="text-sm font-bold uppercase tracking-wider">{message.text}</p>
-            </motion.div>
-          )}
+              <ArrowLeft size={18} className="group-hover:-translate-x-1 transition-transform" />
+              Back to Dashboard
+            </Link>
+          </div>
+        </div>
 
-          <div className="space-y-8">
-            {/* Website Branding Section */}
+        {message && (
+          <motion.div 
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className={`mb-10 p-5 rounded-3xl border shadow-xl flex items-center gap-4 ${
+              message.type === 'success' 
+                ? 'bg-green-500/10 border-green-500/20 text-green-500 shadow-green-500/5' 
+                : 'bg-red-500/10 border-red-500/20 text-red-500 shadow-red-500/5'
+            }`}
+          >
+            <div className={`p-3 rounded-2xl ${message.type === 'success' ? 'bg-green-500/20' : 'bg-red-500/20'}`}>
+              {message.type === 'success' ? <CheckCircle2 size={20} /> : <AlertCircle size={20} />}
+            </div>
+            <div>
+              <p className="font-black text-sm uppercase tracking-widest">{message.type === 'success' ? 'Success' : 'Error'}</p>
+              <p className="text-xs font-bold opacity-80 mt-0.5">{message.text}</p>
+            </div>
+          </motion.div>
+        )}
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+          {/* Branding Section */}
             <section className="p-8 rounded-[40px] bg-card border border-white/10 shadow-2xl shadow-black/40">
               <div className="flex items-center gap-3 mb-8">
                 <Globe className="text-primary" size={20} strokeWidth={2.5} />

@@ -27,7 +27,6 @@ import {
   Link as LinkIcon,
   ArrowLeft
 } from 'lucide-react';
-import AdminSidebar from '@/components/AdminSidebar';
 
 interface Project {
   _id: string;
@@ -69,39 +68,14 @@ export default function AdminDashboard() {
   const password = typeof window !== 'undefined' ? localStorage.getItem('admin_auth') : null;
 
   useEffect(() => {
-    const checkAuth = async () => {
-      if (!password) {
-        router.push('/admin/login');
-        return;
-      }
-
-      try {
-        const res = await fetch('/api/admin/verify-session', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ password })
-        });
-        
-        if (!res.ok) {
-          localStorage.removeItem('admin_auth');
-          router.push('/admin/login');
-        } else {
-          fetchSystemStatus();
-          fetchProjects();
-          fetchStats();
-        }
-      } catch (err) {
-        setError('Authentication verification failed.');
-        setLoading(false);
-      }
-    };
-
-    checkAuth();
+    fetchSystemStatus();
+    fetchProjects();
+    fetchStats();
 
     // Set up polling for stats
     const statsInterval = setInterval(fetchStats, 30000);
     return () => clearInterval(statsInterval);
-  }, [password, router]);
+  }, []);
 
   const fetchStats = async () => {
     try {
@@ -288,19 +262,16 @@ export default function AdminDashboard() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-background">
+      <div className="flex items-center justify-center p-12">
         <Loader2 className="animate-spin text-primary" size={48} />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-background text-foreground flex">
-      <AdminSidebar />
-      
-      <main className="flex-grow p-6 md:p-12 md:ml-64 transition-all duration-300">
-        <div className="max-w-7xl mx-auto">
-          {/* Back to Home Button */}
+    <div className="p-6 md:p-12 transition-all duration-300">
+      <div className="max-w-7xl mx-auto">
+        {/* Back to Home Button */}
           <div className="mb-8">
             <Link 
               href="/"
