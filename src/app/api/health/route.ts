@@ -5,26 +5,24 @@ import mongoose from 'mongoose';
 export const dynamic = 'force-dynamic';
 
 export async function GET() {
-  const status = {
-    api: 'ok',
-    db: 'unknown',
-    mongodb_uri: process.env.MONGODB_URI ? 'Defined' : 'Missing',
-    timestamp: new Date().toISOString(),
-  };
-
   try {
     await connectDB();
-    const dbStatus = mongoose.connection.readyState;
-    // 0 = disconnected, 1 = connected, 2 = connecting, 3 = disconnecting
-    const states = ['disconnected', 'connected', 'connecting', 'disconnecting'];
-    status.db = states[dbStatus] || 'unknown';
-    
-    return NextResponse.json(status);
-  } catch (error: any) {
-    status.db = 'error';
+    const dbStatus = mongoose.connection.readyState === 1 ? 'ok' : 'error';
+
     return NextResponse.json({
-      ...status,
-      error: error.message || String(error),
+      api: 'ok',
+      db: dbStatus,
+      env: process.env.MONGODB_URI ? 'Defined' : 'Not Defined',
+      timestamp: new Date().toISOString(),
+    });
+  } catch (error) {
+    const err = error as Error;
+    return NextResponse.json({ 
+      api: 'ok', 
+      db: 'error', 
+      env: process.env.MONGODB_URI ? 'Defined' : 'Not Defined',
+      timestamp: new Date().toISOString(),
+      error: err.message 
     }, { status: 500 });
   }
 }

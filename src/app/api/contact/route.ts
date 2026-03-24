@@ -17,9 +17,10 @@ export async function POST(req: Request) {
     await newContact.save();
 
     return NextResponse.json({ message: 'Message sent successfully!', contact: newContact }, { status: 201 });
-  } catch (error: any) {
-    console.error('POST /api/contact error:', error.message);
-    return NextResponse.json({ error: 'An unexpected error occurred' }, { status: 500 });
+  } catch (error) {
+    const err = error as Error;
+    console.error('POST /api/contact error:', err.message);
+    return NextResponse.json({ error: err.message }, { status: 500 });
   }
 }
 
@@ -37,8 +38,9 @@ export async function GET(req: Request) {
     const contacts = await Contact.find({}).sort({ createdAt: -1 });
 
     return NextResponse.json(contacts);
-  } catch (error: any) {
-    console.error('GET /api/contact error:', error.message);
-    return NextResponse.json({ error: 'An unexpected error occurred' }, { status: 500 });
+  } catch (error) {
+    const err = error as Error;
+    console.error('GET /api/contact error:', err.message);
+    return NextResponse.json({ error: err.message }, { status: 500 });
   }
 }

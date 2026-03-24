@@ -40,8 +40,9 @@ export async function POST(req: Request) {
     } else {
       return NextResponse.json({ error: 'Failed to send OTP' }, { status: 500 });
     }
-  } catch (error: any) {
-    console.error('Forgot password error:', error.message);
+  } catch (error) {
+    const err = error as Error;
+    console.error('Forgot password error:', err.message);
     return NextResponse.json({ error: 'An unexpected error occurred' }, { status: 500 });
   }
 }

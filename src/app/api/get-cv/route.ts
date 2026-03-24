@@ -14,11 +14,12 @@ export async function GET() {
       lastModified: stats.mtime,
     });
 
-  } catch (error: any) {
+  } catch (e) {
+    const error = e as { code?: string };
     if (error.code === 'ENOENT') {
       return NextResponse.json({ error: 'CV not found.' }, { status: 404 });
     }
-    console.error('Get CV Error:', error);
+    console.error('Get CV Error:', e);
     return NextResponse.json({ error: 'Something went wrong.' }, { status: 500 });
   }
 }

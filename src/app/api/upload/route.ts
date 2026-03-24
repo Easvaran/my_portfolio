@@ -11,20 +11,16 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'No file uploaded' }, { status: 400 });
     }
 
-    const bytes = await file.arrayBuffer();
-    const buffer = Buffer.from(bytes);
-
-    // Create a unique filename
-    const filename = `${Date.now()}-${file.name.replace(/\s+/g, '-')}`;
-    const uploadDir = path.join(process.cwd(), 'public', 'uploads');
-    const filepath = path.join(uploadDir, filename);
-
-    await writeFile(filepath, buffer);
-    const imageUrl = `/uploads/${filename}`;
-
-    return NextResponse.json({ url: imageUrl });
-  } catch (error: any) {
-    console.error('Upload error:', error);
-    return NextResponse.json({ error: error.message || 'Upload failed' }, { status: 500 });
+    const buffer = Buffer.from(await file.arrayBuffer());
+    const filename = file.name.replaceAll(" ", "_");
+    await writeFile(
+      path.join(process.cwd(), "public/uploads/" + filename),
+      buffer
+    );
+    return NextResponse.json({ Message: "Success", status: 201 });
+  } catch (error) {
+    const err = error as Error;
+    console.log("Error occured ", err);
+    return NextResponse.json({ Message: "Failed", status: 500 });
   }
 }

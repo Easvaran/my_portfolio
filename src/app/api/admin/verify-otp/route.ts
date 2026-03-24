@@ -35,8 +35,9 @@ export async function POST(req: Request) {
     await sendPasswordChangedNotification(email);
 
     return NextResponse.json({ message: 'Password updated successfully' });
-  } catch (error: any) {
-    console.error('Verify OTP error:', error.message);
+  } catch (error) {
+    const err = error as Error;
+    console.error('Verify OTP error:', err.message);
     return NextResponse.json({ error: 'An unexpected error occurred' }, { status: 500 });
   }
 }

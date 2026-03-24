@@ -26,8 +26,9 @@ export async function POST(req: Request) {
     }
 
     return NextResponse.json({ error: 'Invalid email or password' }, { status: 401 });
-  } catch (error: any) {
-    console.error('Admin login error:', error.message);
+  } catch (error) {
+    const err = error as Error;
+    console.error('Admin login error:', err.message);
     return NextResponse.json({ error: 'An unexpected error occurred' }, { status: 500 });
   }
 }

@@ -11,8 +11,9 @@ export async function GET() {
     await connectDB();
     const projects = await Project.find({}).sort({ order: 1, createdAt: -1 }).lean();
     return NextResponse.json(Array.isArray(projects) ? projects : []);
-  } catch (error: any) {
-    const errorMsg = error.message || String(error);
+  } catch (error) {
+    const err = error as Error;
+    const errorMsg = err.message || String(err);
     console.error('GET /api/projects error:', errorMsg);
     return NextResponse.json({ 
       error: 'DATABASE_ERROR',
@@ -44,11 +45,12 @@ export async function POST(req: Request) {
     });
 
     return NextResponse.json(project, { status: 201 });
-  } catch (error: any) {
-    console.error('POST /api/projects error:', error.message);
+  } catch (error) {
+    const err = error as Error;
+    console.error('POST /api/projects error:', err.message);
     return NextResponse.json({ 
       error: 'CREATE_ERROR',
-      message: error.message || 'Unknown error' 
+      message: err.message || 'Unknown error' 
     }, { status: 500 });
   }
 }

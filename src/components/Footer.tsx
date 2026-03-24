@@ -4,6 +4,8 @@ import Link from 'next/link';
 import { useContent } from '@/context/ContentContext';
 import * as Icons from 'lucide-react';
 
+const iconMap: Record<string, React.ElementType> = Icons as any;
+
 const Footer = () => {
   const { content } = useContent();
   
@@ -20,8 +22,8 @@ const Footer = () => {
         </div>
 
         <div className="flex space-x-6">
-          {content.socials.map((link: any, index: number) => {
-            const IconComponent = (Icons as any)[link.icon] || Icons.Link;
+          {content.socials.map((link: { icon: string; name: string; href: string }, index: number) => {
+            const IconComponent = iconMap[link.icon] || Icons.Link;
             
             // Skip rendering if the URL is invalid or just a placeholder to prevent Next.js prefetch errors
             const isValidUrl = link.href && link.href !== 'https://' && link.href.startsWith('http');

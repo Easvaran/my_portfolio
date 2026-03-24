@@ -36,10 +36,10 @@ export async function GET(req: Request) {
     const content = await SiteContent.find({});
     
     // Convert array to object
-    const contentObj = content.reduce((acc: any, item: any) => {
+    const contentObj = content.reduce((acc, item) => {
       acc[item.section] = item.data;
       return acc;
-    }, {});
+    }, {} as Record<string, any>);
 
     // Ensure baseline keys exist
     const baseline = {
@@ -52,9 +52,10 @@ export async function GET(req: Request) {
     };
 
     return NextResponse.json(baseline);
-  } catch (error: any) {
-    console.error('GET /api/content error:', error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+  } catch (error) {
+    const err = error as Error;
+    console.error('GET /api/content error:', err);
+    return NextResponse.json({ error: err.message }, { status: 500 });
   }
 }
 
@@ -69,16 +70,16 @@ export async function POST(req: Request) {
     }
 
     await connectDB();
-    
-    const updatedContent = await SiteContent.findOneAndUpdate(
+
+    const content = await SiteContent.findOneAndUpdate(
       { section },
-      { section, data },
+      { data },
       { upsert: true, new: true }
     );
 
-    return NextResponse.json(updatedContent);
-  } catch (error: any) {
-    console.error('POST /api/content error:', error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json(content);
+  } catch (error) {
+    const err = error as Error;
+    return NextResponse.json({ error: err.message }, { status: 500 });
   }
 }

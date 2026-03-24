@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { ReactNode } from 'react';
+import { ReactNode, forwardRef } from 'react';
 
 interface SectionProps {
   id: string;
@@ -11,7 +11,7 @@ interface SectionProps {
   className?: string;
 }
 
-const Section = ({ id, title, subtitle, children, className = '' }: SectionProps) => {
+const Section = forwardRef<HTMLElement, SectionProps>(({ id, title, subtitle, children, className = '' }, ref) => {
   const variants = {
     hidden: { opacity: 0, y: 30, scale: 0.95 },
     visible: { 
@@ -26,7 +26,7 @@ const Section = ({ id, title, subtitle, children, className = '' }: SectionProps
   };
 
   return (
-    <section id={id} className={`py-20 px-6 md:px-12 lg:px-24 ${className}`}>
+    <section ref={ref} id={id} className={`py-20 px-6 md:px-12 lg:px-24 ${className}`}>
       <motion.div
         initial="hidden"
         whileInView="visible"
@@ -52,6 +52,6 @@ const Section = ({ id, title, subtitle, children, className = '' }: SectionProps
       </motion.div>
     </section>
   );
-};
+});
 
 export default Section;

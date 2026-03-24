@@ -16,8 +16,9 @@ export async function GET(req: Request) {
     await connectDB();
     const admins = await Admin.find({}).sort({ createdAt: -1 });
     return NextResponse.json(admins);
-  } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+  } catch (error) {
+    const err = error as Error;
+    return NextResponse.json({ error: err.message }, { status: 500 });
   }
 }
 
@@ -38,8 +39,9 @@ export async function POST(req: Request) {
     await connectDB();
     const admin = await Admin.create({ email, password });
     return NextResponse.json(admin, { status: 201 });
-  } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+  } catch (error) {
+    const err = error as Error;
+    return NextResponse.json({ error: err.message }, { status: 500 });
   }
 }
 
@@ -56,8 +58,9 @@ export async function PUT(req: Request) {
     await connectDB();
     const admin = await Admin.findByIdAndUpdate(id, { email, password }, { new: true });
     return NextResponse.json(admin);
-  } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+  } catch (error) {
+    const err = error as Error;
+    return NextResponse.json({ error: err.message }, { status: 500 });
   }
 }
 
@@ -75,7 +78,8 @@ export async function DELETE(req: Request) {
     await connectDB();
     await Admin.findByIdAndDelete(id);
     return NextResponse.json({ message: 'Admin deleted' });
-  } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+  } catch (error) {
+    const err = error as Error;
+    return NextResponse.json({ error: err.message }, { status: 500 });
   }
 }

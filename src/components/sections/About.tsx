@@ -4,6 +4,8 @@ import Section from '../Section';
 import { useContent } from '@/context/ContentContext';
 import * as Icons from 'lucide-react';
 
+const iconMap: Record<string, React.ElementType> = Icons as any;
+
 const About = () => {
   const { content } = useContent();
   const { title, subtitle, stats, details } = content.about;
@@ -22,9 +24,9 @@ const About = () => {
       subtitle={subtitle}
     >
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
-        {Array.isArray(stats) && stats.map((stat: any, index: number) => {
+        {Array.isArray(stats) && stats.map((stat: { value: string; label: string; icon: string }, index: number) => {
           const isUrl = typeof stat.icon === 'string' && (stat.icon.startsWith('http') || stat.icon.startsWith('/'));
-          const IconComponent = !isUrl && (Icons as any)[stat.icon] ? (Icons as any)[stat.icon] : null;
+          const IconComponent = !isUrl && iconMap[stat.icon] ? iconMap[stat.icon] : null;
 
           return (
             <div
@@ -62,7 +64,7 @@ const About = () => {
               <div className="absolute inset-0 bg-primary/20 blur-2xl rounded-3xl group-hover:bg-primary/30 transition-all duration-500" />
               <div className="relative bg-black/40 p-8 rounded-3xl border border-white/10 backdrop-blur-xl">
                 <ul className="space-y-6">
-                  {values.map((value: any, index: number) => (
+                  {values.map((value: { color: string; title: string; description: string }, index: number) => (
                     <li key={index} className="flex items-start gap-4">
                       <div className={`w-6 h-6 rounded-full bg-${value.color}-500/20 flex items-center justify-center text-${value.color}-500 mt-1 shrink-0`}>
                         <div className={`w-2 h-2 rounded-full bg-${value.color}-500`} />

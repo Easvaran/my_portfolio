@@ -4,7 +4,7 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 import { portfolioConfig } from '@/config/portfolio';
 
 interface ContentContextType {
-  content: any;
+  content: Record<string, any>;
   loading: boolean;
   refreshContent: () => Promise<void>;
 }
@@ -12,7 +12,7 @@ interface ContentContextType {
 const ContentContext = createContext<ContentContextType | undefined>(undefined);
 
 export const ContentProvider = ({ children }: { children: React.ReactNode }) => {
-  const [content, setContent] = useState<any>(portfolioConfig);
+  const [content, setContent] = useState<Record<string, any>>(portfolioConfig);
   const [loading, setLoading] = useState(true);
 
   const fetchContent = async () => {
