@@ -173,7 +173,6 @@ const AdminSidebar = () => {
                 </button>
               </div>
             </motion.aside>
-          </>
         )}
       </AnimatePresence>
     </>
