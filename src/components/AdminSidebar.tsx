@@ -34,7 +34,7 @@ const AdminSidebar = () => {
   };
 
   const navItems = [
-    { name: 'Home Section', href: '/admin/sections/home', icon: Home },
+    { name: 'Home Section', href: '/admin/home', icon: Home },
     { name: 'About Section', href: '/admin/about', icon: Users },
     { name: 'Skills Section', href: '/admin/skills', icon: Layout },
     { name: 'Projects Edit', href: '/admin/projects', icon: Briefcase },
