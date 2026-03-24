@@ -74,15 +74,20 @@ export default function HomeSettings() {
 
     let finalImageUrl = formData.profileImage;
 
+    // Convert file to Base64 if a new file is selected (for Vercel compatibility)
     if (selectedFile) {
-      const uploadFormData = new FormData();
-      uploadFormData.append('file', selectedFile);
       try {
-        const uploadRes = await fetch('/api/upload', { method: 'POST', body: uploadFormData });
-        const uploadData = await uploadRes.json();
-        if (uploadData.url) finalImageUrl = uploadData.url;
-      } catch (err) {
-        setMessage({ type: 'error', text: 'Image upload failed' });
+        const base64Image = await new Promise<string>((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onload = () => resolve(reader.result as string);
+          reader.onerror = (error) => reject(error);
+          reader.readAsDataURL(selectedFile);
+        });
+        
+        finalImageUrl = base64Image;
+      } catch (err: any) {
+        console.error('Image processing failed:', err);
+        setMessage({ type: 'error', text: 'Image processing failed. Please try again.' });
         setSubmitting(false);
         return;
       }

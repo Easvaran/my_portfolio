@@ -214,30 +214,22 @@ export default function AdminProjects() {
       return;
     }
 
-    // Upload image if a new file is selected
+    // Convert file to Base64 if a new file is selected (for Vercel compatibility)
     if (selectedFile) {
       setUploading(true);
-      const uploadFormData = new FormData();
-      uploadFormData.append('file', selectedFile);
-
       try {
-        const uploadRes = await fetch('/api/upload', {
-          method: 'POST',
-          body: uploadFormData,
+        // We use a Promise to handle the FileReader as an async operation
+        const base64Image = await new Promise<string>((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onload = () => resolve(reader.result as string);
+          reader.onerror = (error) => reject(error);
+          reader.readAsDataURL(selectedFile);
         });
         
-        if (!uploadRes.ok) {
-          const uploadData = await uploadRes.json();
-          throw new Error(uploadData.error || 'Upload failed');
-        }
-
-        const uploadData = await uploadRes.json();
-        if (uploadData.url) {
-          finalImageUrl = uploadData.url;
-        }
+        finalImageUrl = base64Image;
       } catch (err: any) {
-        console.error('Image upload failed:', err);
-        setError(`Image upload failed: ${err.message || 'Please try again.'}`);
+        console.error('Image processing failed:', err);
+        setError(`Image processing failed: ${err.message || 'Please try again.'}`);
         setSubmitting(false);
         setUploading(false);
         return;
