@@ -12,7 +12,7 @@ const Skills = () => {
 
   if (loading) return <Section id="skills">Loading...</Section>;
 
-  const { title, subtitle, skill_set } = content.skills || {};
+  const { title, subtitle, categories } = content.skills || {};
 
   return (
     <Section id="skills" ref={ref}>
@@ -36,23 +36,30 @@ const Skills = () => {
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
-        {(skill_set || []).map((skill: { name: string; level: number }, index: number) => (
-          <motion.div 
-            key={index} 
-            initial={{ opacity: 0, y: 30 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.5, delay: 0.1 + (index * 0.05) }}
-            className="p-8 rounded-3xl bg-card border border-white/10 shadow-2xl shadow-black/40 text-center"
-          >
-            <h3 className="text-lg font-bold text-white mb-4">{skill.name}</h3>
-            <div className="w-full bg-white/5 rounded-full h-2.5">
-              <div 
-                className="bg-primary h-2.5 rounded-full shadow-lg shadow-primary/30"
-                style={{ width: `${skill.level}%` }}
-              ></div>
-            </div>
-          </motion.div>
-        ))}
+        {Array.isArray(categories) && categories.map((category: any, index: number) => {
+          const Icon = (Icons as any)[category.icon] || Icons.Code;
+          return (
+            <motion.div 
+              key={index} 
+              initial={{ opacity: 0, y: 30 }}
+              animate={inView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.5, delay: 0.1 + (index * 0.05) }}
+              className="p-8 rounded-3xl bg-card border border-white/10 shadow-2xl shadow-black/40"
+            >
+              <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center text-primary mb-6">
+                <Icon size={24} />
+              </div>
+              <h3 className="text-xl font-bold text-white mb-4">{category.title}</h3>
+              <div className="flex flex-wrap gap-2">
+                {Array.isArray(category.skills) && category.skills.map((skill: string, sIndex: number) => (
+                  <span key={sIndex} className="px-3 py-1 rounded-lg bg-white/5 text-secondary text-xs font-medium border border-white/5">
+                    {skill}
+                  </span>
+                ))}
+              </div>
+            </motion.div>
+          );
+        })}
       </div>
     </Section>
   );

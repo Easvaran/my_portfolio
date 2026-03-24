@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { Mail, Phone, MapPin, Loader2 } from 'lucide-react';
+import * as Icons from 'lucide-react';
 import Section from '../Section';
 import { useContent } from '@/context/ContentContext';
 
@@ -44,13 +45,7 @@ const Contact = () => {
 
   if (loading) return <Section id="contact">Loading...</Section>;
 
-  const { title, subtitle, email, phone, address } = content.contact || {};
-
-  const contactDetails: { icon: React.ElementType, value: string, href: string }[] = [
-    { icon: Mail, value: email, href: `mailto:${email}` },
-    { icon: Phone, value: phone, href: `tel:${phone}` },
-    { icon: MapPin, value: address, href: '#' },
-  ];
+  const { title, subtitle, info } = content.contact || {};
 
   return (
     <Section id="contact" ref={ref}>
@@ -80,14 +75,15 @@ const Contact = () => {
           transition={{ duration: 0.8, delay: 0.3 }}
           className="space-y-8"
         >
-          {contactDetails.map((item, index) => {
-            const Icon = item.icon;
+          {Array.isArray(info) && info.map((item: any, index: number) => {
+            const Icon = (Icons as any)[item.icon] || Icons.HelpCircle;
             return (
               <div key={index} className="flex items-start gap-6">
                 <div className="w-16 h-16 rounded-2xl bg-card border border-white/10 flex items-center justify-center text-primary">
                   <Icon size={28} />
                 </div>
                 <div>
+                  <p className="text-xs font-black uppercase tracking-widest text-muted-foreground mb-1">{item.label}</p>
                   <a href={item.href} className="text-lg font-bold text-white hover:text-primary transition-colors">
                     {item.value}
                   </a>

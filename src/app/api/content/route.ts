@@ -48,6 +48,7 @@ export async function GET(req: Request) {
       hero: portfolioConfig.hero,
       about: portfolioConfig.about,
       skills: portfolioConfig.skills,
+      projects: portfolioConfig.projects,
       footer: portfolioConfig.footer,
       socials: portfolioConfig.socials,
       ...contentObj

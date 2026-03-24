@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { Github, Loader2 } from 'lucide-react';
 import ProjectCard from '../ProjectCard';
 import { portfolioConfig } from '@/config/portfolio';
+import { useContent } from '@/context/ContentContext';
 
 interface Project {
   _id?: string;
@@ -18,7 +19,8 @@ interface Project {
 }
 
 const Projects = () => {
-  const { title, subtitle, items: staticItems, githubLink } = portfolioConfig.projects;
+  const { content, loading: contentLoading } = useContent();
+  const { title, subtitle, items: staticItems, githubLink } = content.projects || portfolioConfig.projects;
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -27,14 +29,14 @@ const Projects = () => {
       try {
         const res = await fetch('/api/projects');
         const data = await res.json();
-        if (data && data.length > 0) {
+        if (Array.isArray(data) && data.length > 0) {
           setProjects(data);
         } else {
-          setProjects(staticItems);
+          setProjects(staticItems || []);
         }
       } catch (err) {
         console.error('Failed to fetch projects, using static data', err);
-        setProjects(staticItems);
+        setProjects(staticItems || []);
       } finally {
         setLoading(false);
       }
@@ -49,7 +51,7 @@ const Projects = () => {
       title={title}
       subtitle={subtitle}
     >
-      {loading ? (
+      {(loading || contentLoading) ? (
         <div className="flex justify-center py-20">
           <Loader2 className="animate-spin text-primary" size={48} />
         </div>

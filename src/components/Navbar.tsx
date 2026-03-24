@@ -6,10 +6,12 @@ import { Menu, X } from 'lucide-react';
 import Link from 'next/link';
 
 import { portfolioConfig } from '@/config/portfolio';
+import { useContent } from '@/context/ContentContext';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const { content } = useContent();
   const [branding, setBranding] = useState({
     logo: '',
     heading: 'PORTFOLIO'
@@ -24,9 +26,7 @@ const Navbar = () => {
     // Fetch dynamic branding
     const fetchBranding = async () => {
       try {
-        const res = await fetch('/api/content?section=branding', { 
-          next: { revalidate: 3600 } // Cache for 1 hour, or use no-store for real-time
-        });
+        const res = await fetch('/api/content?section=branding');
         if (res.ok) {
           const result = await res.json();
           if (result && result.data) {
@@ -45,6 +45,8 @@ const Navbar = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const navigation = content.navigation || portfolioConfig.navigation;
+
   return (
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
@@ -62,7 +64,7 @@ const Navbar = () => {
 
         {/* Desktop Nav */}
         <div className="hidden md:flex items-center space-x-8">
-          {portfolioConfig.navigation.map((link) => (
+          {navigation.map((link: { name: string; href: string }) => (
             <Link
               key={link.name}
               href={link.href}
@@ -98,7 +100,7 @@ const Navbar = () => {
             className="md:hidden bg-background border-b border-white/10 overflow-hidden"
           >
             <div className="flex flex-col p-6 space-y-4">
-              {portfolioConfig.navigation.map((link) => (
+              {navigation.map((link: { name: string; href: string }) => (
                 <Link
                   key={link.name}
                   href={link.href}
