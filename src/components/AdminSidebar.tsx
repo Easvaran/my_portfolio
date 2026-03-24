@@ -35,14 +35,14 @@ const AdminSidebar = () => {
 
   const navItems = [
     { name: 'Home Section', href: '/admin/sections/home', icon: Home },
-    { name: 'About Section', href: '/admin/sections/about', icon: Users },
-    { name: 'Skills Section', href: '/admin/sections/skills', icon: Layout },
+    { name: 'About Section', href: '/admin/about', icon: Users },
+    { name: 'Skills Section', href: '/admin/skills', icon: Layout },
     { name: 'Projects Edit', href: '/admin/projects', icon: Briefcase },
-    { name: 'Follow Me', href: '/admin/sections/follow-me', icon: Share2 },
-    { name: 'Contact Section', href: '/admin/sections/contact', icon: Mail },
+    { name: 'Follow Me', href: '/admin/follow-me', icon: Share2 },
+    { name: 'Contact Section', href: '/admin/contact', icon: Mail },
     { name: 'CV Upload', href: '/admin/cv', icon: Upload },
     { name: 'Messages', href: '/admin/messages', icon: Mail },
-    { name: 'Footer Settings', href: '/admin/sections/socials', icon: Settings },
+    { name: 'Footer Settings', href: '/admin/socials', icon: Settings },
     { name: 'Settings', href: '/admin/settings', icon: Settings },
   ];
 

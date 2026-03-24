@@ -12,7 +12,8 @@ export async function PUT(
     const body = await req.json();
     const { title, description, image, tags, live, github, order, password } = body;
 
-    if (password !== process.env.ADMIN_PASSWORD) {
+    const isAuthorized = await verifyAdminPassword(password);
+    if (!isAuthorized) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 

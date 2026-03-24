@@ -1,6 +1,4 @@
-import { NextResponse } from 'next/server';
-import connectDB from '@/lib/mongodb';
-import Contact from '@/models/Contact';
+import { verifyAdminPassword } from '@/lib/auth';
 
 // POST a new contact message
 export async function POST(req: Request) {
@@ -37,7 +35,8 @@ export async function GET(req: Request) {
     const { searchParams } = new URL(req.url);
     const password = searchParams.get('password');
 
-    if (password !== process.env.ADMIN_PASSWORD) {
+    const isAuthorized = await verifyAdminPassword(password);
+    if (!isAuthorized) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
