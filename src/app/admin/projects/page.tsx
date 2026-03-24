@@ -202,9 +202,17 @@ export default function AdminProjects() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError(null);
     setSubmitting(true);
 
     let finalImageUrl = formData.image;
+
+    // Validate that an image is provided
+    if (!selectedFile && !formData.image) {
+      setError('Please provide a project image (upload or URL).');
+      setSubmitting(false);
+      return;
+    }
 
     // Upload image if a new file is selected
     if (selectedFile) {
@@ -217,13 +225,19 @@ export default function AdminProjects() {
           method: 'POST',
           body: uploadFormData,
         });
+        
+        if (!uploadRes.ok) {
+          const uploadData = await uploadRes.json();
+          throw new Error(uploadData.error || 'Upload failed');
+        }
+
         const uploadData = await uploadRes.json();
         if (uploadData.url) {
           finalImageUrl = uploadData.url;
         }
-      } catch (err) {
+      } catch (err: any) {
         console.error('Image upload failed:', err);
-        setError('Image upload failed. Please try again.');
+        setError(`Image upload failed: ${err.message || 'Please try again.'}`);
         setSubmitting(false);
         setUploading(false);
         return;
@@ -253,9 +267,13 @@ export default function AdminProjects() {
       if (res.ok) {
         setShowModal(false);
         fetchProjects();
+      } else {
+        const data = await res.json();
+        setError(data.error || 'Failed to save project. Please check all fields.');
       }
-    } catch (err) {
-      console.error(err);
+    } catch (err: any) {
+      console.error('Error saving project:', err);
+      setError(err.message || 'An error occurred while saving the project.');
     } finally {
       setSubmitting(false);
     }

@@ -17,10 +17,10 @@ export async function POST(req: Request) {
       path.join(process.cwd(), "public/uploads/" + filename),
       buffer
     );
-    return NextResponse.json({ Message: "Success", status: 201 });
+    return NextResponse.json({ url: "/uploads/" + filename }, { status: 201 });
   } catch (error) {
     const err = error as Error;
     console.log("Error occured ", err);
-    return NextResponse.json({ Message: "Failed", status: 500 });
+    return NextResponse.json({ error: "Failed to upload file" }, { status: 500 });
   }
 }
