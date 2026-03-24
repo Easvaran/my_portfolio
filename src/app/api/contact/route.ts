@@ -1,3 +1,6 @@
+import { NextResponse } from 'next/server';
+import connectDB from '@/lib/mongodb';
+import Contact from '@/models/Contact';
 import { verifyAdminPassword } from '@/lib/auth';
 
 // POST a new contact message
