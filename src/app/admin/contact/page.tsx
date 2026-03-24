@@ -22,13 +22,8 @@ export default function ContactSettings() {
   const password = typeof window !== 'undefined' ? localStorage.getItem('admin_auth') : null;
 
   useEffect(() => {
-    const adminPassword = process.env.NEXT_PUBLIC_ADMIN_PASSWORD;
-    if (!password || password !== adminPassword) {
-      router.push('/admin/login');
-      return;
-    }
     fetchContent();
-  }, [password, router]);
+  }, []);
 
   const fetchContent = async () => {
     try {
@@ -104,14 +99,17 @@ export default function ContactSettings() {
     }
   };
 
-  if (loading) return <div className="min-h-screen flex items-center justify-center"><Loader2 className="animate-spin text-primary" size={48} /></div>;
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-[60vh]">
+        <Loader2 className="animate-spin text-primary" size={48} />
+      </div>
+    );
+  }
 
   return (
-    <div className="min-h-screen bg-background text-foreground flex">
-      <AdminSidebar />
-      <main className="flex-grow p-6 md:p-12 md:ml-64 transition-all duration-300">
-        <div className="max-w-4xl mx-auto">
-          {/* Back to Home Button */}
+    <div className="max-w-4xl mx-auto p-6 md:p-12">
+      {/* Back to Home Button */}
           <div className="mb-8">
             <Link 
               href="/"
@@ -206,8 +204,6 @@ export default function ContactSettings() {
               </button>
             </div>
           </form>
-        </div>
-      </main>
     </div>
   );
 }

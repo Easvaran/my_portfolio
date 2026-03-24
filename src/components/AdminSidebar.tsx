@@ -33,6 +33,8 @@ const AdminSidebar = () => {
     setMounted(true);
   }, []);
 
+  if (!mounted) return null;
+
   const handleLogout = () => {
     localStorage.removeItem('admin_auth');
     router.push('/admin/login');

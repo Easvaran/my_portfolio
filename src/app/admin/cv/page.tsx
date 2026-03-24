@@ -82,11 +82,8 @@ export default function CVPicker() {
   };
 
   return (
-    <div className="min-h-screen bg-background text-foreground flex">
-      <AdminSidebar />
-      <main className="flex-grow p-6 md:p-12 md:ml-64 transition-all duration-300">
-        <div className="max-w-3xl mx-auto">
-          {/* Back to Home Button */}
+    <div className="max-w-3xl mx-auto p-6 md:p-12">
+      {/* Back to Home Button */}
           <div className="mb-8">
             <Link 
               href="/"
@@ -179,8 +176,6 @@ export default function CVPicker() {
               </button>
             </form>
           </motion.div>
-        </div>
-      </main>
     </div>
   );
 }
