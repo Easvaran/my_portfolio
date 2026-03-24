@@ -73,7 +73,7 @@ export default function FollowMeSettings() {
           localStorage.removeItem('admin_auth');
           router.push('/admin/login');
         } else {
-          fetchData();
+          fetchContent();
         }
       } catch (err) {
         setLoading(false);
