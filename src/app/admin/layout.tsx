@@ -18,20 +18,35 @@ export default function AdminLayout({
   useEffect(() => {
     const checkAuth = async () => {
       const password = localStorage.getItem('admin_auth');
-      const adminPassword = process.env.NEXT_PUBLIC_ADMIN_PASSWORD;
 
       if (pathname === '/admin/login') {
         setLoading(false);
         return;
       }
 
-      if (!password || password !== adminPassword) {
+      if (!password) {
         router.push('/admin/login');
         return;
       }
 
-      setAuthorized(true);
-      setLoading(false);
+      try {
+        const res = await fetch('/api/admin/verify-session', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ password })
+        });
+        
+        if (!res.ok) {
+          localStorage.removeItem('admin_auth');
+          router.push('/admin/login');
+        } else {
+          setAuthorized(true);
+        }
+      } catch (err) {
+        router.push('/admin/login');
+      } finally {
+        setLoading(false);
+      }
     };
 
     checkAuth();
