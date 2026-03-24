@@ -7,8 +7,10 @@ export const dynamic = 'force-dynamic';
 
 export async function GET() {
   try {
-    console.log('GET /api/projects - start');
-    await connectDB();
+    const db = await connectDB();
+    if (!db) {
+      return NextResponse.json({ error: 'Service Unavailable' }, { status: 503 });
+    }
     const projects = await Project.find({}).sort({ order: 1, createdAt: -1 }).lean();
     return NextResponse.json(Array.isArray(projects) ? projects : []);
   } catch (error) {
@@ -25,6 +27,10 @@ export async function GET() {
 
 export async function POST(req: Request) {
   try {
+    const db = await connectDB();
+    if (!db) {
+      return NextResponse.json({ error: 'Service Unavailable' }, { status: 503 });
+    }
     const body = await req.json();
     const { title, description, image, tags, live, github, order, password } = body;
 
@@ -33,7 +39,6 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    await connectDB();
     const project = await Project.create({
       title,
       description,

@@ -8,10 +8,12 @@ export const dynamic = 'force-dynamic';
 
 export async function GET(req: Request) {
   try {
+    const db = await connectDB();
+    if (!db) {
+      return NextResponse.json({ error: 'Service Unavailable' }, { status: 503 });
+    }
     const { searchParams } = new URL(req.url);
     const section = searchParams.get('section');
-
-    await connectDB();
 
     if (section) {
       const content = await SiteContent.findOne({ section });
@@ -61,6 +63,10 @@ export async function GET(req: Request) {
 
 export async function POST(req: Request) {
   try {
+    const db = await connectDB();
+    if (!db) {
+      return NextResponse.json({ error: 'Service Unavailable' }, { status: 503 });
+    }
     const body = await req.json();
     const { section, data, password } = body;
 
@@ -68,8 +74,6 @@ export async function POST(req: Request) {
     if (!isAuthorized) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
-
-    await connectDB();
 
     const content = await SiteContent.findOneAndUpdate(
       { section },

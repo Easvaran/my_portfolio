@@ -5,7 +5,10 @@ import Contact from '@/models/Contact';
 // POST a new contact message
 export async function POST(req: Request) {
   try {
-    await connectDB();
+    const db = await connectDB();
+    if (!db) {
+      return NextResponse.json({ error: 'Service Unavailable' }, { status: 503 });
+    }
     const body = await req.json();
     const { name, email, message } = body;
 
@@ -27,6 +30,10 @@ export async function POST(req: Request) {
 // GET all contact messages (protected)
 export async function GET(req: Request) {
   try {
+    const db = await connectDB();
+    if (!db) {
+      return NextResponse.json({ error: 'Service Unavailable' }, { status: 503 });
+    }
     const { searchParams } = new URL(req.url);
     const password = searchParams.get('password');
 
@@ -34,7 +41,6 @@ export async function GET(req: Request) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    await connectDB();
     const contacts = await Contact.find({}).sort({ createdAt: -1 });
 
     return NextResponse.json(contacts);
