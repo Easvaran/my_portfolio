@@ -7,7 +7,7 @@ export const dynamic = 'force-dynamic';
 export async function GET() {
   try {
     await connectDB();
-    const dbStatus = mongoose.connection.readyState === 1 ? 'ok' : 'error';
+    const dbStatus = mongoose.connection.readyState === 1 ? 'connected' : 'error';
 
     return NextResponse.json({
       api: 'ok',
