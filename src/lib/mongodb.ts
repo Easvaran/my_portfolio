@@ -35,10 +35,6 @@ async function connectDB(): Promise<typeof mongoose | null> {
 
     cached!.promise = mongoose.connect(uri, opts).then((mongoose) => {
       return mongoose;
-    }).catch(err => {
-      console.error('MongoDB initial connection error:', err);
-      cached!.promise = null; 
-      return null;
     });
   }
 

@@ -235,140 +235,141 @@ export default function AdminProjects() {
   }
 
   return (
-    <div className="p-6 md:p-12 transition-all duration-300">
-      <div className="max-w-7xl mx-auto">
-        {/* Header with Search and Profile */}
-          <div className="mb-8">
-            <Link 
-              href="/"
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white/5 border border-white/10 text-muted-foreground hover:text-white hover:bg-white/10 transition-all text-sm font-bold group"
-            >
-              <ArrowLeft size={18} className="group-hover:-translate-x-1 transition-transform" />
-              Back to Home
-            </Link>
-          </div>
-
+    <>
+      <div className="p-6 md:p-12 transition-all duration-300">
+        <div className="max-w-7xl mx-auto">
           {/* Header with Search and Profile */}
-          <div className="flex flex-col md:flex-row justify-between items-center mb-10 gap-6 border-b border-white/5 pb-8">
-            <div className="flex items-center gap-4">
-              <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center text-primary shadow-inner shadow-primary/20">
-                <Briefcase size={24} strokeWidth={2.5} />
-              </div>
-              <div>
-                <h1 className="text-3xl font-black tracking-tight text-white">Projects Management</h1>
-                <p className="text-muted-foreground text-sm font-medium">Curate and refine your digital portfolio showcase</p>
-              </div>
-            </div>
-          </div>
-
-          {/* Error Display */}
-          {error && (
-            <motion.div 
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="mb-10 p-5 bg-red-500/10 border border-red-500/20 text-red-500 rounded-3xl flex items-center gap-4 shadow-xl shadow-red-500/5"
-            >
-              <div className="p-3 bg-red-500/20 rounded-2xl">
-                <X size={20} strokeWidth={2.5} />
-              </div>
-              <div className="flex-grow">
-                <p className="font-black text-sm uppercase tracking-widest">Operational Error</p>
-                <p className="text-xs font-bold opacity-80 mt-0.5">{error}</p>
-              </div>
-            </motion.div>
-          )}
-
-          {/* Projects Management Header */}
-          <div className="flex flex-col md:flex-row justify-between items-center mb-10 gap-6 bg-card/30 p-8 rounded-[40px] border border-white/5">
-            <div>
-              <h2 className="text-3xl font-black tracking-tight text-white">Project List</h2>
-              <p className="text-muted-foreground mt-2 font-medium">Manage all your projects from here</p>
-            </div>
-            <button
-              onClick={openAddModal}
-              className="flex items-center gap-3 px-10 py-5 bg-primary hover:bg-primary/90 text-white font-black uppercase tracking-widest rounded-2xl transition-all shadow-xl shadow-primary/25 hover:scale-[1.02] active:scale-95 group"
-            >
-              <Plus size={22} strokeWidth={3} className="group-hover:rotate-90 transition-transform duration-300" />
-              Create New Showcase
-            </button>
-          </div>
-
-          {/* Projects Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-            {Array.isArray(projects) && projects.map((project, index) => (
-              <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: index * 0.05 }}
-                key={project._id}
-                className="p-6 rounded-[48px] bg-card border border-white/10 backdrop-blur-sm group hover:border-primary/50 transition-all duration-500 shadow-2xl shadow-black/40 relative overflow-hidden"
+            <div className="mb-8">
+              <Link 
+                href="/"
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white/5 border border-white/10 text-muted-foreground hover:text-white hover:bg-white/10 transition-all text-sm font-bold group"
               >
-                <div className="absolute top-0 right-0 p-6 opacity-0 group-hover:opacity-100 transition-opacity z-10 flex gap-2">
-                  <button onClick={() => openEditModal(project)} className="p-3 bg-white/10 hover:bg-white/20 backdrop-blur-md rounded-2xl text-white transition-all hover:scale-110 shadow-xl border border-white/10">
-                    <Edit3 size={18} strokeWidth={2.5} />
-                  </button>
-                  <button onClick={() => handleDelete(project._id)} className="p-3 bg-red-500/20 hover:bg-red-500/40 backdrop-blur-md rounded-2xl text-red-400 transition-all hover:scale-110 shadow-xl border border-red-500/10">
-                    <Trash2 size={18} strokeWidth={2.5} />
-                  </button>
-                </div>
+                <ArrowLeft size={18} className="group-hover:-translate-x-1 transition-transform" />
+                Back to Home
+              </Link>
+            </div>
 
-                <div className="relative h-60 rounded-[32px] overflow-hidden mb-8 group-hover:shadow-2xl group-hover:shadow-primary/10 transition-all duration-500">
-                  <Image 
-                    src={project.image} 
-                    alt={project.title} 
-                    fill 
-                    className="object-cover group-hover:scale-110 transition-transform duration-700" 
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-8">
-                    <div className="flex justify-between items-center">
-                      <a href={project.live} target="_blank" className="px-5 py-2.5 bg-primary text-white text-[10px] font-black uppercase tracking-widest rounded-xl hover:bg-primary/90 transition-all">
-                        Live Preview
-                      </a>
-                      <a href={project.github} target="_blank" className="p-2.5 bg-white/10 text-white rounded-xl hover:bg-white/20 transition-all border border-white/10">
-                        <Github size={18} />
-                      </a>
-                    </div>
-                  </div>
+            {/* Header with Search and Profile */}
+            <div className="flex flex-col md:flex-row justify-between items-center mb-10 gap-6 border-b border-white/5 pb-8">
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center text-primary shadow-inner shadow-primary/20">
+                  <Briefcase size={24} strokeWidth={2.5} />
                 </div>
+                <div>
+                  <h1 className="text-3xl font-black tracking-tight text-white">Projects Management</h1>
+                  <p className="text-muted-foreground text-sm font-medium">Curate and refine your digital portfolio showcase</p>
+                </div>
+              </div>
+            </div>
 
-                <div className="px-2">
-                  <div className="flex items-center gap-2 mb-3">
-                    {project.tags.slice(0, 2).map((tag, i) => (
-                      <span key={i} className="text-[9px] font-black uppercase tracking-widest text-primary/80 bg-primary/5 px-2.5 py-1 rounded-lg border border-primary/10">
-                        {tag}
-                      </span>
-                    ))}
-                    {project.tags.length > 2 && (
-                      <span className="text-[9px] font-black uppercase tracking-widest text-muted-foreground px-2 py-1 bg-white/5 rounded-lg border border-white/5">
-                        +{project.tags.length - 2}
-                      </span>
-                    )}
-                  </div>
-                  <h3 className="text-2xl font-black mb-3 text-white tracking-tight group-hover:text-primary transition-colors">{project.title}</h3>
-                  <p className="text-muted-foreground text-sm leading-relaxed line-clamp-2 font-medium">{project.description}</p>
+            {/* Error Display */}
+            {error && (
+              <motion.div 
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="mb-10 p-5 bg-red-500/10 border border-red-500/20 text-red-500 rounded-3xl flex items-center gap-4 shadow-xl shadow-red-500/5"
+              >
+                <div className="p-3 bg-red-500/20 rounded-2xl">
+                  <X size={20} strokeWidth={2.5} />
+                </div>
+                <div className="flex-grow">
+                  <p className="font-black text-sm uppercase tracking-widest">Operational Error</p>
+                  <p className="text-xs font-bold opacity-80 mt-0.5">{error}</p>
                 </div>
               </motion.div>
-            ))}
-          </div>
+            )}
 
-          {/* Empty State */}
-          {(!Array.isArray(projects) || projects.length === 0) && !loading && !error && (
-            <div className="text-center py-32 bg-card/20 rounded-[64px] border border-dashed border-white/10 mt-12 shadow-inner">
-              <div className="w-24 h-24 bg-white/5 rounded-full flex items-center justify-center mx-auto mb-8 border border-white/5">
-                <Layout className="text-white/20" size={48} strokeWidth={1} />
+            {/* Projects Management Header */}
+            <div className="flex flex-col md:flex-row justify-between items-center mb-10 gap-6 bg-card/30 p-8 rounded-[40px] border border-white/5">
+              <div>
+                <h2 className="text-3xl font-black tracking-tight text-white">Project List</h2>
+                <p className="text-muted-foreground mt-2 font-medium">Manage all your projects from here</p>
               </div>
-              <h2 className="text-3xl font-black text-white mb-3">No projects curated yet</h2>
-              <p className="text-muted-foreground mt-2 mb-10 font-medium max-w-sm mx-auto leading-relaxed">Your digital gallery is empty. Let's start by adding your first masterpiece showcase.</p>
               <button
                 onClick={openAddModal}
-                className="px-12 py-5 bg-primary hover:bg-primary/90 text-white font-black uppercase tracking-widest rounded-2xl transition-all shadow-2xl shadow-primary/25 hover:scale-105 active:scale-95"
+                className="flex items-center gap-3 px-10 py-5 bg-primary hover:bg-primary/90 text-white font-black uppercase tracking-widest rounded-2xl transition-all shadow-xl shadow-primary/25 hover:scale-[1.02] active:scale-95 group"
               >
-                Create First Showcase
+                <Plus size={22} strokeWidth={3} className="group-hover:rotate-90 transition-transform duration-300" />
+                Create New Showcase
               </button>
             </div>
-          )}
+
+            {/* Projects Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+              {Array.isArray(projects) && projects.map((project, index) => (
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: index * 0.05 }}
+                  key={project._id}
+                  className="p-6 rounded-[48px] bg-card border border-white/10 backdrop-blur-sm group hover:border-primary/50 transition-all duration-500 shadow-2xl shadow-black/40 relative overflow-hidden"
+                >
+                  <div className="absolute top-0 right-0 p-6 opacity-0 group-hover:opacity-100 transition-opacity z-10 flex gap-2">
+                    <button onClick={() => openEditModal(project)} className="p-3 bg-white/10 hover:bg-white/20 backdrop-blur-md rounded-2xl text-white transition-all hover:scale-110 shadow-xl border border-white/10">
+                      <Edit3 size={18} strokeWidth={2.5} />
+                    </button>
+                    <button onClick={() => handleDelete(project._id)} className="p-3 bg-red-500/20 hover:bg-red-500/40 backdrop-blur-md rounded-2xl text-red-400 transition-all hover:scale-110 shadow-xl border border-red-500/10">
+                      <Trash2 size={18} strokeWidth={2.5} />
+                    </button>
+                  </div>
+
+                  <div className="relative h-60 rounded-[32px] overflow-hidden mb-8 group-hover:shadow-2xl group-hover:shadow-primary/10 transition-all duration-500">
+                    <Image 
+                      src={project.image} 
+                      alt={project.title} 
+                      fill 
+                      className="object-cover group-hover:scale-110 transition-transform duration-700" 
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-8">
+                      <div className="flex justify-between items-center">
+                        <a href={project.live} target="_blank" className="px-5 py-2.5 bg-primary text-white text-[10px] font-black uppercase tracking-widest rounded-xl hover:bg-primary/90 transition-all">
+                          Live Preview
+                        </a>
+                        <a href={project.github} target="_blank" className="p-2.5 bg-white/10 text-white rounded-xl hover:bg-white/20 transition-all border border-white/10">
+                          <Github size={18} />
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="px-2">
+                    <div className="flex items-center gap-2 mb-3">
+                      {project.tags.slice(0, 2).map((tag, i) => (
+                        <span key={i} className="text-[9px] font-black uppercase tracking-widest text-primary/80 bg-primary/5 px-2.5 py-1 rounded-lg border border-primary/10">
+                          {tag}
+                        </span>
+                      ))}
+                      {project.tags.length > 2 && (
+                        <span className="text-[9px] font-black uppercase tracking-widest text-muted-foreground px-2 py-1 bg-white/5 rounded-lg border border-white/5">
+                          +{project.tags.length - 2}
+                        </span>
+                      )}
+                    </div>
+                    <h3 className="text-2xl font-black mb-3 text-white tracking-tight group-hover:text-primary transition-colors">{project.title}</h3>
+                    <p className="text-muted-foreground text-sm leading-relaxed line-clamp-2 font-medium">{project.description}</p>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+
+            {/* Empty State */}
+            {(!Array.isArray(projects) || projects.length === 0) && !loading && !error && (
+              <div className="text-center py-32 bg-card/20 rounded-[64px] border border-dashed border-white/10 mt-12 shadow-inner">
+                <div className="w-24 h-24 bg-white/5 rounded-full flex items-center justify-center mx-auto mb-8 border border-white/5">
+                  <Layout className="text-white/20" size={48} strokeWidth={1} />
+                </div>
+                <h2 className="text-3xl font-black text-white mb-3">No projects curated yet</h2>
+                <p className="text-muted-foreground mt-2 mb-10 font-medium max-w-sm mx-auto leading-relaxed">Your digital gallery is empty. Let's start by adding your first masterpiece showcase.</p>
+                <button
+                  onClick={openAddModal}
+                  className="px-12 py-5 bg-primary hover:bg-primary/90 text-white font-black uppercase tracking-widest rounded-2xl transition-all shadow-2xl shadow-primary/25 hover:scale-105 active:scale-95"
+                >
+                  Create First Showcase
+                </button>
+              </div>
+            )}
         </div>
-      </main>
+      </div>
 
       {/* Modal */}
       <AnimatePresence>
@@ -530,6 +531,6 @@ export default function AdminProjects() {
           </div>
         )}
       </AnimatePresence>
-    </div>
+    </>
   );
 }

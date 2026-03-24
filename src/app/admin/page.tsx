@@ -269,255 +269,256 @@ export default function AdminDashboard() {
   }
 
   return (
-    <div className="p-6 md:p-12 transition-all duration-300">
-      <div className="max-w-7xl mx-auto">
-        {/* Back to Home Button */}
-          <div className="mb-8">
-            <Link 
-              href="/"
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white/5 border border-white/10 text-muted-foreground hover:text-white hover:bg-white/10 transition-all text-sm font-bold group"
-            >
-              <ArrowLeft size={18} className="group-hover:-translate-x-1 transition-transform" />
-              Back to Home
-            </Link>
-          </div>
-
-          {/* Header with Search and Profile */}
-          <div className="flex flex-col md:flex-row justify-between items-center mb-10 gap-6 border-b border-white/5 pb-8">
-            <div className="flex items-center gap-4">
-              <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center text-primary shadow-inner shadow-primary/20">
-                <LayoutDashboard size={24} strokeWidth={2.5} />
-              </div>
-              <div>
-                <h1 className="text-3xl font-black tracking-tight text-white">Dashboard Overview</h1>
-                <p className="text-muted-foreground text-sm font-medium">Welcome back, Administrator</p>
-              </div>
+    <>
+      <div className="p-6 md:p-12 transition-all duration-300">
+        <div className="max-w-7xl mx-auto">
+          {/* Back to Home Button */}
+            <div className="mb-8">
+              <Link 
+                href="/"
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white/5 border border-white/10 text-muted-foreground hover:text-white hover:bg-white/10 transition-all text-sm font-bold group"
+              >
+                <ArrowLeft size={18} className="group-hover:-translate-x-1 transition-transform" />
+                Back to Home
+              </Link>
             </div>
-            
-            <div className="flex items-center gap-4">
-              <div className="relative group hidden lg:block">
-                <input 
-                  type="text" 
-                  placeholder="Search projects..." 
-                  className="px-6 py-3 rounded-xl bg-white/5 border border-white/10 focus:border-primary focus:ring-4 focus:ring-primary/10 outline-none transition-all text-sm w-64 placeholder:text-muted-foreground"
-                />
-              </div>
-              <div className="w-10 h-10 rounded-xl bg-primary/20 border border-primary/20 flex items-center justify-center text-primary font-black text-xs group cursor-pointer hover:bg-primary hover:text-white transition-all">
-                AD
-              </div>
-            </div>
-          </div>
 
-          {/* System Status Display */}
-          {systemStatus && (
-            <motion.div 
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className={`mb-10 p-5 rounded-3xl border shadow-xl ${
-                systemStatus.db === 'connected' 
-                  ? 'bg-green-500/10 border-green-500/20 text-green-500 shadow-green-500/5' 
-                  : 'bg-yellow-500/10 border-yellow-500/20 text-yellow-500 shadow-yellow-500/5'
-              } flex flex-col md:flex-row items-center justify-between gap-6`}
-            >
+            {/* Header with Search and Profile */}
+            <div className="flex flex-col md:flex-row justify-between items-center mb-10 gap-6 border-b border-white/5 pb-8">
               <div className="flex items-center gap-4">
-                <div className={`p-3 rounded-2xl ${systemStatus.db === 'connected' ? 'bg-green-500/20' : 'bg-yellow-500/20'}`}>
-                  <Layout size={20} strokeWidth={2.5} />
+                <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center text-primary shadow-inner shadow-primary/20">
+                  <LayoutDashboard size={24} strokeWidth={2.5} />
                 </div>
                 <div>
-                  <p className="font-black text-sm uppercase tracking-widest">Database Sync Status</p>
-                  <p className="text-xs opacity-70 font-bold uppercase tracking-widest mt-0.5">
-                    {systemStatus.db === 'connected' ? 'Systems operational' : 'Database connection pending'}
-                  </p>
+                  <h1 className="text-3xl font-black tracking-tight text-white">Dashboard Overview</h1>
+                  <p className="text-muted-foreground text-sm font-medium">Welcome back, Administrator</p>
                 </div>
               </div>
               
-              <div className="flex flex-wrap items-center gap-3">
-                <span className="px-4 py-2 rounded-xl bg-white/5 border border-white/5 text-[10px] font-black uppercase tracking-widest">API: {systemStatus.api}</span>
-                <span className="px-4 py-2 rounded-xl bg-white/5 border border-white/5 text-[10px] font-black uppercase tracking-widest">DB: {systemStatus.db}</span>
-                <span className="px-4 py-2 rounded-xl bg-white/5 border border-white/5 text-[10px] font-black uppercase tracking-widest">ENV: {systemStatus.mongodb_uri}</span>
-              </div>
-
-              {systemStatus.error && (
-                <div className="w-full md:w-auto p-3 bg-black/40 rounded-2xl border border-white/5 flex items-center gap-3">
-                  <AlertCircle size={14} className="text-red-500 shrink-0" />
-                  <p className="text-[10px] font-mono font-bold text-red-400 max-w-[200px] truncate">
-                    {systemStatus.error}
-                  </p>
-                </div>
-              )}
-            </motion.div>
-          )}
-
-          {/* Error Display */}
-          {error && (
-            <motion.div 
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="mb-10 p-5 bg-red-500/10 border border-red-500/20 text-red-500 rounded-3xl flex items-center gap-4 shadow-xl shadow-red-500/5"
-            >
-              <div className="p-3 bg-red-500/20 rounded-2xl">
-                <X size={20} strokeWidth={2.5} />
-              </div>
-              <div className="flex-grow">
-                <p className="font-black text-sm uppercase tracking-widest">Operational Error</p>
-                <p className="text-xs font-bold opacity-80 mt-0.5">{error}</p>
-              </div>
-            </motion.div>
-          )}
-
-          {/* Stats Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 mb-12">
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="p-8 rounded-[40px] bg-card border border-white/10 flex flex-col gap-6 shadow-2xl shadow-black/40 hover:border-white/20 transition-all group"
-            >
-              <div className="flex items-center justify-between">
-                <div className="p-4 rounded-3xl bg-primary/10 text-primary group-hover:scale-110 transition-transform duration-500">
-                  <Briefcase size={28} strokeWidth={2.5} />
-                </div>
-                <span className="text-[10px] font-black uppercase tracking-widest text-primary/70 bg-primary/5 px-3 py-1.5 rounded-full border border-primary/10">
-                  Total Projects
-                </span>
-              </div>
-              <div>
-                <p className="text-[10px] font-black text-muted-foreground uppercase tracking-[0.2em] mb-1">Showcase Projects</p>
-                <h3 className="text-4xl font-black text-white tracking-tighter">{Array.isArray(projects) ? projects.length : 0}</h3>
-              </div>
-            </motion.div>
-
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1 }}
-              className="p-8 rounded-[40px] bg-card border border-white/10 flex flex-col gap-6 shadow-2xl shadow-black/40 hover:border-white/20 transition-all group"
-            >
-              <div className="flex items-center justify-between">
-                <div className="p-4 rounded-3xl bg-blue-500/10 text-blue-500 group-hover:scale-110 transition-transform duration-500">
-                  <Users size={28} strokeWidth={2.5} />
-                </div>
-                <span className="text-[10px] font-black uppercase tracking-widest text-blue-500/70 bg-blue-500/5 px-3 py-1.5 rounded-full border border-blue-500/10">
-                  Real-time
-                </span>
-              </div>
-              <div>
-                <p className="text-[10px] font-black text-muted-foreground uppercase tracking-[0.2em] mb-1">Active Visitors</p>
-                <h3 className="text-4xl font-black text-white tracking-tighter">{stats.activeVisitors}</h3>
-              </div>
-            </motion.div>
-
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
-              className="p-8 rounded-[40px] bg-card border border-white/10 flex flex-col gap-6 shadow-2xl shadow-black/40 hover:border-white/20 transition-all group"
-            >
-              <div className="flex items-center justify-between">
-                <div className="p-4 rounded-3xl bg-purple-500/10 text-purple-500 group-hover:scale-110 transition-transform duration-500">
-                  <MessageSquare size={28} strokeWidth={2.5} />
-                </div>
-                <span className="text-[10px] font-black uppercase tracking-widest text-purple-500/70 bg-purple-500/5 px-3 py-1.5 rounded-full border border-purple-500/10">
-                  {stats.inquiries.pending} new (24h)
-                </span>
-              </div>
-              <div>
-                <p className="text-[10px] font-black text-muted-foreground uppercase tracking-[0.2em] mb-1">Client Inquiries</p>
-                <h3 className="text-4xl font-black text-white tracking-tighter">{stats.inquiries.total}</h3>
-              </div>
-            </motion.div>
-          </div>
-
-          {/* Projects Management Header */}
-          <div className="flex flex-col md:flex-row justify-between items-center mb-10 gap-6 bg-card/30 p-8 rounded-[40px] border border-white/5">
-            <div>
-              <h2 className="text-3xl font-black tracking-tight text-white">Project Management</h2>
-              <p className="text-muted-foreground mt-2 font-medium">Curate and refine your digital portfolio showcase</p>
-            </div>
-            <button
-              onClick={openAddModal}
-              className="flex items-center gap-3 px-10 py-5 bg-primary hover:bg-primary/90 text-white font-black uppercase tracking-widest rounded-2xl transition-all shadow-xl shadow-primary/25 hover:scale-[1.02] active:scale-95 group"
-            >
-              <Plus size={22} strokeWidth={3} className="group-hover:rotate-90 transition-transform duration-300" />
-              Create New Showcase
-            </button>
-          </div>
-
-          {/* Projects Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
-            {Array.isArray(projects) && projects.map((project, index) => (
-              <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: index * 0.05 }}
-                key={project._id}
-                className="p-6 rounded-[48px] bg-card border border-white/10 backdrop-blur-sm group hover:border-primary/50 transition-all duration-500 shadow-2xl shadow-black/40 relative overflow-hidden"
-              >
-                <div className="absolute top-0 right-0 p-6 opacity-0 group-hover:opacity-100 transition-opacity z-10 flex gap-2">
-                  <button onClick={() => openEditModal(project)} className="p-3 bg-white/10 hover:bg-white/20 backdrop-blur-md rounded-2xl text-white transition-all hover:scale-110 shadow-xl border border-white/10">
-                    <Edit3 size={18} strokeWidth={2.5} />
-                  </button>
-                  <button onClick={() => handleDelete(project._id)} className="p-3 bg-red-500/20 hover:bg-red-500/40 backdrop-blur-md rounded-2xl text-red-400 transition-all hover:scale-110 shadow-xl border border-red-500/10">
-                    <Trash2 size={18} strokeWidth={2.5} />
-                  </button>
-                </div>
-
-                <div className="relative h-60 rounded-[32px] overflow-hidden mb-8 group-hover:shadow-2xl group-hover:shadow-primary/10 transition-all duration-500">
-                  <Image 
-                    src={project.image} 
-                    alt={project.title} 
-                    fill 
-                    className="object-cover group-hover:scale-110 transition-transform duration-700" 
+              <div className="flex items-center gap-4">
+                <div className="relative group hidden lg:block">
+                  <input 
+                    type="text" 
+                    placeholder="Search projects..." 
+                    className="px-6 py-3 rounded-xl bg-white/5 border border-white/10 focus:border-primary focus:ring-4 focus:ring-primary/10 outline-none transition-all text-sm w-64 placeholder:text-muted-foreground"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-8">
-                    <div className="flex justify-between items-center">
-                      <a href={project.live} target="_blank" className="px-5 py-2.5 bg-primary text-white text-[10px] font-black uppercase tracking-widest rounded-xl hover:bg-primary/90 transition-all">
-                        Live Preview
-                      </a>
-                      <a href={project.github} target="_blank" className="p-2.5 bg-white/10 text-white rounded-xl hover:bg-white/20 transition-all border border-white/10">
-                        <Github size={18} />
-                      </a>
-                    </div>
+                </div>
+                <div className="w-10 h-10 rounded-xl bg-primary/20 border border-primary/20 flex items-center justify-center text-primary font-black text-xs group cursor-pointer hover:bg-primary hover:text-white transition-all">
+                  AD
+                </div>
+              </div>
+            </div>
+
+            {/* System Status Display */}
+            {systemStatus && (
+              <motion.div 
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className={`mb-10 p-5 rounded-3xl border shadow-xl ${
+                  systemStatus.db === 'connected' 
+                    ? 'bg-green-500/10 border-green-500/20 text-green-500 shadow-green-500/5' 
+                    : 'bg-yellow-500/10 border-yellow-500/20 text-yellow-500 shadow-yellow-500/5'
+                } flex flex-col md:flex-row items-center justify-between gap-6`}
+              >
+                <div className="flex items-center gap-4">
+                  <div className={`p-3 rounded-2xl ${systemStatus.db === 'connected' ? 'bg-green-500/20' : 'bg-yellow-500/20'}`}>
+                    <Layout size={20} strokeWidth={2.5} />
+                  </div>
+                  <div>
+                    <p className="font-black text-sm uppercase tracking-widest">Database Sync Status</p>
+                    <p className="text-xs opacity-70 font-bold uppercase tracking-widest mt-0.5">
+                      {systemStatus.db === 'connected' ? 'Systems operational' : 'Database connection pending'}
+                    </p>
                   </div>
                 </div>
+                
+                <div className="flex flex-wrap items-center gap-3">
+                  <span className="px-4 py-2 rounded-xl bg-white/5 border border-white/5 text-[10px] font-black uppercase tracking-widest">API: {systemStatus.api}</span>
+                  <span className="px-4 py-2 rounded-xl bg-white/5 border border-white/5 text-[10px] font-black uppercase tracking-widest">DB: {systemStatus.db}</span>
+                  <span className="px-4 py-2 rounded-xl bg-white/5 border border-white/5 text-[10px] font-black uppercase tracking-widest">ENV: {systemStatus.mongodb_uri}</span>
+                </div>
 
-                <div className="px-2">
-                  <div className="flex items-center gap-2 mb-3">
-                    {project.tags.slice(0, 2).map((tag, i) => (
-                      <span key={i} className="text-[9px] font-black uppercase tracking-widest text-primary/80 bg-primary/5 px-2.5 py-1 rounded-lg border border-primary/10">
-                        {tag}
-                      </span>
-                    ))}
-                    {project.tags.length > 2 && (
-                      <span className="text-[9px] font-black uppercase tracking-widest text-muted-foreground px-2 py-1 bg-white/5 rounded-lg border border-white/5">
-                        +{project.tags.length - 2}
-                      </span>
-                    )}
+                {systemStatus.error && (
+                  <div className="w-full md:w-auto p-3 bg-black/40 rounded-2xl border border-white/5 flex items-center gap-3">
+                    <AlertCircle size={14} className="text-red-500 shrink-0" />
+                    <p className="text-[10px] font-mono font-bold text-red-400 max-w-[200px] truncate">
+                      {systemStatus.error}
+                    </p>
                   </div>
-                  <h3 className="text-2xl font-black mb-3 text-white tracking-tight group-hover:text-primary transition-colors">{project.title}</h3>
-                  <p className="text-muted-foreground text-sm leading-relaxed line-clamp-2 font-medium">{project.description}</p>
+                )}
+              </motion.div>
+            )}
+
+            {/* Error Display */}
+            {error && (
+              <motion.div 
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="mb-10 p-5 bg-red-500/10 border border-red-500/20 text-red-500 rounded-3xl flex items-center gap-4 shadow-xl shadow-red-500/5"
+              >
+                <div className="p-3 bg-red-500/20 rounded-2xl">
+                  <X size={20} strokeWidth={2.5} />
+                </div>
+                <div className="flex-grow">
+                  <p className="font-black text-sm uppercase tracking-widest">Operational Error</p>
+                  <p className="text-xs font-bold opacity-80 mt-0.5">{error}</p>
                 </div>
               </motion.div>
-            ))}
-          </div>
+            )}
 
-          {/* Empty State */}
-          {(!Array.isArray(projects) || projects.length === 0) && !loading && !error && (
-            <div className="text-center py-32 bg-card/20 rounded-[64px] border border-dashed border-white/10 mt-12 shadow-inner">
-              <div className="w-24 h-24 bg-white/5 rounded-full flex items-center justify-center mx-auto mb-8 border border-white/5">
-                <Layout className="text-white/20" size={48} strokeWidth={1} />
+            {/* Stats Grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 mb-12">
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="p-8 rounded-[40px] bg-card border border-white/10 flex flex-col gap-6 shadow-2xl shadow-black/40 hover:border-white/20 transition-all group"
+              >
+                <div className="flex items-center justify-between">
+                  <div className="p-4 rounded-3xl bg-primary/10 text-primary group-hover:scale-110 transition-transform duration-500">
+                    <Briefcase size={28} strokeWidth={2.5} />
+                  </div>
+                  <span className="text-[10px] font-black uppercase tracking-widest text-primary/70 bg-primary/5 px-3 py-1.5 rounded-full border border-primary/10">
+                    Total Projects
+                  </span>
+                </div>
+                <div>
+                  <p className="text-[10px] font-black text-muted-foreground uppercase tracking-[0.2em] mb-1">Showcase Projects</p>
+                  <h3 className="text-4xl font-black text-white tracking-tighter">{Array.isArray(projects) ? projects.length : 0}</h3>
+                </div>
+              </motion.div>
+
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.1 }}
+                className="p-8 rounded-[40px] bg-card border border-white/10 flex flex-col gap-6 shadow-2xl shadow-black/40 hover:border-white/20 transition-all group"
+              >
+                <div className="flex items-center justify-between">
+                  <div className="p-4 rounded-3xl bg-blue-500/10 text-blue-500 group-hover:scale-110 transition-transform duration-500">
+                    <Users size={28} strokeWidth={2.5} />
+                  </div>
+                  <span className="text-[10px] font-black uppercase tracking-widest text-blue-500/70 bg-blue-500/5 px-3 py-1.5 rounded-full border border-blue-500/10">
+                    Real-time
+                  </span>
+                </div>
+                <div>
+                  <p className="text-[10px] font-black text-muted-foreground uppercase tracking-[0.2em] mb-1">Active Visitors</p>
+                  <h3 className="text-4xl font-black text-white tracking-tighter">{stats.activeVisitors}</h3>
+                </div>
+              </motion.div>
+
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2 }}
+                className="p-8 rounded-[40px] bg-card border border-white/10 flex flex-col gap-6 shadow-2xl shadow-black/40 hover:border-white/20 transition-all group"
+              >
+                <div className="flex items-center justify-between">
+                  <div className="p-4 rounded-3xl bg-purple-500/10 text-purple-500 group-hover:scale-110 transition-transform duration-500">
+                    <MessageSquare size={28} strokeWidth={2.5} />
+                  </div>
+                  <span className="text-[10px] font-black uppercase tracking-widest text-purple-500/70 bg-purple-500/5 px-3 py-1.5 rounded-full border border-purple-500/10">
+                    {stats.inquiries.pending} new (24h)
+                  </span>
+                </div>
+                <div>
+                  <p className="text-[10px] font-black text-muted-foreground uppercase tracking-[0.2em] mb-1">Client Inquiries</p>
+                  <h3 className="text-4xl font-black text-white tracking-tighter">{stats.inquiries.total}</h3>
+                </div>
+              </motion.div>
+            </div>
+
+            {/* Projects Management Header */}
+            <div className="flex flex-col md:flex-row justify-between items-center mb-10 gap-6 bg-card/30 p-8 rounded-[40px] border border-white/5">
+              <div>
+                <h2 className="text-3xl font-black tracking-tight text-white">Project Management</h2>
+                <p className="text-muted-foreground mt-2 font-medium">Curate and refine your digital portfolio showcase</p>
               </div>
-              <h2 className="text-3xl font-black text-white mb-3">No projects curated yet</h2>
-              <p className="text-muted-foreground mt-2 mb-10 font-medium max-w-sm mx-auto leading-relaxed">Your digital gallery is empty. Let's start by adding your first masterpiece showcase.</p>
               <button
                 onClick={openAddModal}
-                className="px-12 py-5 bg-primary hover:bg-primary/90 text-white font-black uppercase tracking-widest rounded-2xl transition-all shadow-2xl shadow-primary/25 hover:scale-105 active:scale-95"
+                className="flex items-center gap-3 px-10 py-5 bg-primary hover:bg-primary/90 text-white font-black uppercase tracking-widest rounded-2xl transition-all shadow-xl shadow-primary/25 hover:scale-[1.02] active:scale-95 group"
               >
-                Create First Showcase
+                <Plus size={22} strokeWidth={3} className="group-hover:rotate-90 transition-transform duration-300" />
+                Create New Showcase
               </button>
             </div>
-          )}
+
+            {/* Projects Grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
+              {Array.isArray(projects) && projects.map((project, index) => (
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: index * 0.05 }}
+                  key={project._id}
+                  className="p-6 rounded-[48px] bg-card border border-white/10 backdrop-blur-sm group hover:border-primary/50 transition-all duration-500 shadow-2xl shadow-black/40 relative overflow-hidden"
+                >
+                  <div className="absolute top-0 right-0 p-6 opacity-0 group-hover:opacity-100 transition-opacity z-10 flex gap-2">
+                    <button onClick={() => openEditModal(project)} className="p-3 bg-white/10 hover:bg-white/20 backdrop-blur-md rounded-2xl text-white transition-all hover:scale-110 shadow-xl border border-white/10">
+                      <Edit3 size={18} strokeWidth={2.5} />
+                    </button>
+                    <button onClick={() => handleDelete(project._id)} className="p-3 bg-red-500/20 hover:bg-red-500/40 backdrop-blur-md rounded-2xl text-red-400 transition-all hover:scale-110 shadow-xl border border-red-500/10">
+                      <Trash2 size={18} strokeWidth={2.5} />
+                    </button>
+                  </div>
+
+                  <div className="relative h-60 rounded-[32px] overflow-hidden mb-8 group-hover:shadow-2xl group-hover:shadow-primary/10 transition-all duration-500">
+                    <Image 
+                      src={project.image} 
+                      alt={project.title} 
+                      fill 
+                      className="object-cover group-hover:scale-110 transition-transform duration-700" 
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-8">
+                      <div className="flex justify-between items-center">
+                        <a href={project.live} target="_blank" className="px-5 py-2.5 bg-primary text-white text-[10px] font-black uppercase tracking-widest rounded-xl hover:bg-primary/90 transition-all">
+                          Live Preview
+                        </a>
+                        <a href={project.github} target="_blank" className="p-2.5 bg-white/10 text-white rounded-xl hover:bg-white/20 transition-all border border-white/10">
+                          <Github size={18} />
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="px-2">
+                    <div className="flex items-center gap-2 mb-3">
+                      {project.tags.slice(0, 2).map((tag, i) => (
+                        <span key={i} className="text-[9px] font-black uppercase tracking-widest text-primary/80 bg-primary/5 px-2.5 py-1 rounded-lg border border-primary/10">
+                          {tag}
+                        </span>
+                      ))}
+                      {project.tags.length > 2 && (
+                        <span className="text-[9px] font-black uppercase tracking-widest text-muted-foreground px-2 py-1 bg-white/5 rounded-lg border border-white/5">
+                          +{project.tags.length - 2}
+                        </span>
+                      )}
+                    </div>
+                    <h3 className="text-2xl font-black mb-3 text-white tracking-tight group-hover:text-primary transition-colors">{project.title}</h3>
+                    <p className="text-muted-foreground text-sm leading-relaxed line-clamp-2 font-medium">{project.description}</p>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+
+            {/* Empty State */}
+            {(!Array.isArray(projects) || projects.length === 0) && !loading && !error && (
+              <div className="text-center py-32 bg-card/20 rounded-[64px] border border-dashed border-white/10 mt-12 shadow-inner">
+                <div className="w-24 h-24 bg-white/5 rounded-full flex items-center justify-center mx-auto mb-8 border border-white/5">
+                  <Layout className="text-white/20" size={48} strokeWidth={1} />
+                </div>
+                <h2 className="text-3xl font-black text-white mb-3">No projects curated yet</h2>
+                <p className="text-muted-foreground mt-2 mb-10 font-medium max-w-sm mx-auto leading-relaxed">Your digital gallery is empty. Let's start by adding your first masterpiece showcase.</p>
+                <button
+                  onClick={openAddModal}
+                  className="px-12 py-5 bg-primary hover:bg-primary/90 text-white font-black uppercase tracking-widest rounded-2xl transition-all shadow-2xl shadow-primary/25 hover:scale-105 active:scale-95"
+                >
+                  Create First Showcase
+                </button>
+              </div>
+            )}
         </div>
-      </main>
+      </div>
 
       {/* Modal */}
       <AnimatePresence>
@@ -679,6 +680,6 @@ export default function AdminDashboard() {
           </div>
         )}
       </AnimatePresence>
-    </div>
+    </>
   );
 }
