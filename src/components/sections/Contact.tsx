@@ -187,10 +187,6 @@ const Contact = () => {
             )}
           </motion.button>
         </motion.form>
-          >
-            {isSubmitting ? <Loader2 className="animate-spin" size={20} /> : 'Send Message'}
-          </button>
-        </motion.form>
       </div>
     </Section>
   );

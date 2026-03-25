@@ -51,14 +51,14 @@
 
 @layer base {
   :root {
-    --background: 240 10% 3.9%;
-    --foreground: 0 0% 98%;
+    --background: 224 71% 4%;
+    --foreground: 213 31% 91%;
 
-    --card: 240 10% 3.9%;
-    --card-foreground: 0 0% 98%;
+    --card: 224 71% 4%;
+    --card-foreground: 213 31% 91%;
  
-    --popover: 240 10% 3.9%;
-    --popover-foreground: 0 0% 98%;
+    --popover: 224 71% 4%;
+    --popover-foreground: 213 31% 91%;
  
     /* Professional Blue/Purple Primary */
     --primary: 263.4 70% 50.4%;
@@ -68,36 +68,52 @@
     --secondary: 199 89% 48%;
     --secondary-foreground: 0 0% 98%;
  
-    --muted: 240 3.7% 15.9%;
-    --muted-foreground: 240 5% 64.9%;
+    --muted: 223 47% 11%;
+    --muted-foreground: 215.4 16.3% 56.9%;
  
-    --accent: 240 3.7% 15.9%;
-    --accent-foreground: 0 0% 98%;
+    --accent: 216 34% 17%;
+    --accent-foreground: 210 40% 98%;
  
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
 
-    --border: 240 3.7% 15.9%;
-    --input: 240 3.7% 15.9%;
+    --border: 216 34% 17%;
+    --input: 216 34% 17%;
     --ring: 263.4 70% 50.4%;
 
     --radius: 1rem;
   }
+}
 
-  .dark {
-    --background: 240 10% 3.9%;
-    --foreground: 0 0% 98%;
+@layer utilities {
+  .text-gradient-primary {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary via-secondary to-primary;
+    background-size: 200% auto;
+    animation: text-gradient 8s linear infinite;
+  }
 
-    --card: 240 10% 3.9%;
-    --card-foreground: 0 0% 98%;
- 
-    --popover: 240 10% 3.9%;
-    --popover-foreground: 0 0% 98%;
- 
-    --primary: 263.4 70% 50.4%;
-    --primary-foreground: 210 40% 98%;
- 
-    --secondary: 199 89% 48%;
+  .bg-gradient-mesh {
+    background-image: 
+      radial-gradient(at 0% 0%, hsla(263, 70%, 50%, 0.15) 0px, transparent 50%),
+      radial-gradient(at 100% 0%, hsla(199, 89%, 48%, 0.15) 0px, transparent 50%),
+      radial-gradient(at 100% 100%, hsla(263, 70%, 50%, 0.1) 0px, transparent 50%),
+      radial-gradient(at 0% 100%, hsla(199, 89%, 48%, 0.1) 0px, transparent 50%);
+  }
+
+  .glass {
+    @apply bg-white/5 backdrop-blur-xl border border-white/10 shadow-2xl;
+  }
+
+  .glass-card {
+    @apply bg-card/40 backdrop-blur-md border border-white/5 hover:border-primary/30 transition-all duration-500;
+  }
+
+  @keyframes text-gradient {
+    0% { background-position: 0% center; }
+    50% { background-position: 100% center; }
+    100% { background-position: 0% center; }
+  }
+}
     --secondary-foreground: 0 0% 98%;
  
     --muted: 240 3.7% 15.9%;
@@ -136,16 +152,7 @@
     @apply bg-gradient-to-br from-white via-white/90 to-white/40 bg-clip-text text-transparent;
   }
   .text-gradient-primary {
-    @apply bg-gradient-to-r from-primary via-secondary to-primary bg-clip-text text-transparent animate-gradient-x;
+    @apply bg-gradient-to-r from-primary via-secondary to-primary bg-clip-text text-transparent;
+    background-size: 200% 200%;
   }
-}
-
-@keyframes gradient-x {
-  0%, 100% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-}
-
-.animate-gradient-x {
-  background-size: 200% 200%;
-  animation: gradient-x 15s ease infinite;
 }

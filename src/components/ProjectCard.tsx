@@ -18,7 +18,7 @@ const ProjectCard = ({ title, description, image, tags, live }: ProjectProps) =>
     <motion.div 
       whileHover={{ y: -16 }}
       transition={{ duration: 0.5, type: "spring", stiffness: 100 }}
-      className="group relative rounded-[40px] overflow-hidden glass glass-hover flex flex-col h-full shadow-2xl hover:shadow-primary/10"
+      className="group relative rounded-[40px] overflow-hidden glass-card flex flex-col h-full shadow-2xl hover:shadow-primary/10"
     >
       {/* Image Container */}
       <Link href={live} target="_blank" className="relative h-72 overflow-hidden block">
@@ -38,7 +38,7 @@ const ProjectCard = ({ title, description, image, tags, live }: ProjectProps) =>
           className="absolute inset-0 bg-primary/20 flex items-center justify-center backdrop-blur-[4px]"
         >
           <div className="p-6 rounded-full bg-white text-primary transition-all shadow-2xl shadow-primary/40 transform translate-y-4 group-hover:translate-y-0 duration-500">
-            <ExternalLink size={32} strokeWidth={3} />
+            <ExternalLink size={32} strokeWidth={2} />
           </div>
         </motion.div>
         
@@ -46,7 +46,7 @@ const ProjectCard = ({ title, description, image, tags, live }: ProjectProps) =>
           {tags.slice(0, 2).map((tag, tagIndex) => (
             <span
               key={tagIndex}
-              className="px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md text-white text-[10px] font-black uppercase tracking-widest border border-white/10"
+              className="px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md text-white text-xs font-bold uppercase tracking-widest border border-white/10"
             >
               {tag}
             </span>
@@ -59,13 +59,13 @@ const ProjectCard = ({ title, description, image, tags, live }: ProjectProps) =>
         <h3 className="text-3xl font-black mb-4 tracking-tighter text-white group-hover:text-primary transition-colors">
           {title}
         </h3>
-        <p className="text-muted-foreground text-sm font-medium leading-relaxed mb-8 line-clamp-3 italic">
-          &ldquo;{description}&rdquo;
+        <p className="text-muted-foreground text-sm font-medium leading-relaxed mb-8 line-clamp-3">
+          {description}
         </p>
         
         <div className="mt-auto pt-6 border-t border-white/5 flex items-center justify-between">
-          <span className="text-[10px] font-black uppercase tracking-[0.3em] text-primary">View Project</span>
-          <div className="w-10 h-1px bg-white/10 group-hover:w-20 group-hover:bg-primary transition-all duration-500" />
+          <span className="text-xs font-bold uppercase tracking-widest text-primary">View Project</span>
+          <div className="w-10 h-[1px] bg-white/10 group-hover:w-20 group-hover:bg-primary transition-all duration-500" />
         </div>
       </div>
     </motion.div>

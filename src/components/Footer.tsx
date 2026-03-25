@@ -10,13 +10,13 @@ const Footer = () => {
   const { content } = useContent();
   
   return (
-    <footer className="py-12 px-6 border-t glass">
+    <footer className="py-12 px-6 border-t glass-card">
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center space-y-8 md:space-y-0">
         <div>
-          <Link href="#home" className="text-2xl font-bold tracking-tighter">
+          <Link href="#home" className="text-2xl font-black tracking-tighter uppercase text-white">
             PORT<span className="text-primary">FOLIO</span>
           </Link>
-          <p className="mt-2 text-muted-foreground max-w-xs">
+          <p className="mt-2 text-muted-foreground max-w-xs text-sm font-medium">
             {content.footer.text}
           </p>
         </div>

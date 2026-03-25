@@ -16,31 +16,30 @@ const Hero = () => {
   const subtitleAccent = subtitle ? subtitle.split(' ').slice(-1) : 'Developer';
 
   return (
-    <section id="home" className="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden px-6">
+    <section id="home" className="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden px-6 bg-gradient-mesh">
       {/* Background Decor */}
       <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
-        <div className="absolute top-[-10%] left-[-10%] w-[60vw] h-[60vw] rounded-full bg-primary/20 blur-[140px] animate-pulse" />
-        <div className="absolute bottom-[-10%] right-[-10%] w-[50vw] h-[50vw] rounded-full bg-secondary/20 blur-[120px] animate-pulse delay-1000" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.03] mix-blend-overlay" />
+        <div className="absolute top-[-10%] left-[-10%] w-[60vw] h-[60vw] rounded-full bg-primary/10 blur-[140px] animate-pulse" />
+        <div className="absolute bottom-[-10%] right-[-10%] w-[50vw] h-[50vw] rounded-full bg-secondary/10 blur-[120px] animate-pulse delay-1000" />
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto text-center">
         {profileImage && (
           <motion.div
-            initial={{ opacity: 0, scale: 0.5, rotate: -10 }}
-            animate={{ opacity: 1, scale: 1, rotate: 0 }}
+            initial={{ opacity: 0, scale: 0.5 }}
+            animate={{ opacity: 1, scale: 1 }}
             transition={{ type: "spring", stiffness: 100, damping: 15, duration: 0.8 }}
             className="mb-10 relative inline-block"
           >
-            <div className="absolute inset-0 bg-primary/30 blur-3xl rounded-full animate-pulse" />
-            <div className="relative w-36 h-32 md:w-48 md:h-48 rounded-[40px] border-2 border-white/10 p-2 bg-card/50 backdrop-blur-md overflow-hidden group rotate-3 hover:rotate-0 transition-all duration-500 shadow-2xl">
+            <div className="absolute inset-0 bg-primary/20 blur-3xl rounded-full animate-pulse" />
+            <div className="relative w-40 h-40 md:w-56 md:h-56 rounded-full border-4 border-white/10 p-1 bg-card/50 backdrop-blur-md overflow-hidden group transition-all duration-500 shadow-2xl">
               <Image
                 src={profileImage}
                 alt={name || 'Profile'}
                 fill
                 priority
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                className="object-cover rounded-[32px] group-hover:scale-110 transition-transform duration-700"
+                className="object-cover rounded-full group-hover:scale-105 transition-transform duration-700"
               />
             </div>
           </motion.div>
@@ -52,11 +51,11 @@ const Hero = () => {
           transition={{ duration: 0.8, delay: 0.2 }}
           className="mb-8 flex flex-col items-center gap-4"
         >
-          <span className="px-6 py-2 rounded-full glass text-primary border border-primary/20 text-[10px] font-black tracking-[0.3em] uppercase">
+          <span className="px-6 py-2 rounded-full glass text-primary border border-primary/20 text-xs font-bold tracking-widest uppercase">
             {title || 'Portfolio'}
           </span>
-          <p className="text-xl md:text-2xl font-bold text-white tracking-tight">
-            Greetings, I&apos;m <span className="text-primary">{name || 'Developer'}</span>
+          <p className="text-xl md:text-3xl font-semibold text-white/90">
+            Hi, I&apos;m <span className="text-primary font-bold">{name || 'Developer'}</span>
           </p>
         </motion.div>
 
@@ -64,7 +63,7 @@ const Hero = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.3 }}
-          className="text-5xl sm:text-7xl md:text-8xl lg:text-[10rem] font-black tracking-tighter mb-12 leading-[0.8] text-white"
+          className="text-6xl sm:text-8xl md:text-9xl font-black tracking-tighter mb-8 leading-[0.9] text-white"
         >
           {subtitleMain} <br />
           <span className="text-gradient-primary">
@@ -76,7 +75,7 @@ const Hero = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}
-          className="text-lg md:text-2xl text-muted-foreground max-w-3xl mx-auto mb-12 leading-relaxed font-medium"
+          className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-12 leading-relaxed font-medium"
         >
           {description}
         </motion.p>

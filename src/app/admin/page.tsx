@@ -247,7 +247,8 @@ export default function AdminDashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-background text-foreground p-6 md:p-12">
+    <>
+      <div className="min-h-screen bg-background text-foreground p-6 md:p-12">
       {/* Background Decor */}
       <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
         <div className="absolute top-[-10%] right-[-10%] w-[50vw] h-[50vw] rounded-full bg-primary/5 blur-[120px]" />

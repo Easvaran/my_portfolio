@@ -50,7 +50,7 @@ const Skills = () => {
               initial={{ opacity: 0, y: 30 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.5, delay: 0.1 + (index * 0.05) }}
-              className="p-8 rounded-[32px] glass glass-hover relative overflow-hidden group"
+              className="p-8 rounded-[32px] glass-card relative overflow-hidden group"
             >
               <div className="absolute top-0 right-0 w-24 h-24 bg-primary/5 rounded-full -mr-12 -mt-12 blur-2xl group-hover:bg-primary/10 transition-colors" />
               
@@ -58,7 +58,7 @@ const Skills = () => {
                 {isUrl ? (
                   <img src={category.icon} alt={category.title} className="w-8 h-8 object-contain" />
                 ) : (
-                  <Icon size={32} strokeWidth={2.5} />
+                  <Icon size={32} strokeWidth={2} />
                 )}
               </div>
               <h3 className="text-2xl font-black text-white mb-6 tracking-tighter uppercase italic">{category.title}</h3>
@@ -67,7 +67,7 @@ const Skills = () => {
                   <motion.span 
                     key={sIndex} 
                     whileHover={{ scale: 1.1, x: 5 }}
-                    className="px-4 py-2 rounded-xl bg-white/5 text-muted-foreground text-[10px] font-black uppercase tracking-widest border border-white/5 hover:text-primary hover:border-primary/30 transition-all cursor-default"
+                    className="px-4 py-2 rounded-xl bg-white/5 text-muted-foreground text-xs font-bold uppercase tracking-widest border border-white/5 hover:text-primary hover:border-primary/30 transition-all cursor-default"
                   >
                     {skill}
                   </motion.span>
