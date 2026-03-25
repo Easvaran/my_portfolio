@@ -127,7 +127,6 @@ export default function AdminDashboard() {
       image: '',
       tags: '',
       live: '',
-      github: '',
       order: Array.isArray(projects) ? projects.length : 0
     });
     setSelectedFile(null);
@@ -143,7 +142,6 @@ export default function AdminDashboard() {
       image: project.image,
       tags: project.tags.join(', '),
       live: project.live,
-      github: project.github,
       order: project.order
     });
     setSelectedFile(null);
@@ -450,12 +448,9 @@ export default function AdminDashboard() {
                       className="object-cover group-hover:scale-110 transition-transform duration-700" 
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-8">
-                      <div className="flex justify-between items-center">
-                        <a href={project.live} target="_blank" className="px-5 py-2.5 bg-primary text-white text-[10px] font-black uppercase tracking-widest rounded-xl hover:bg-primary/90 transition-all">
+                      <div className="flex justify-center items-center">
+                        <a href={project.live} target="_blank" className="px-8 py-3 bg-primary text-white text-[10px] font-black uppercase tracking-widest rounded-xl hover:bg-primary/90 transition-all shadow-xl shadow-primary/20">
                           Live Preview
-                        </a>
-                        <a href={project.github} target="_blank" className="p-2.5 bg-white/10 text-white rounded-xl hover:bg-white/20 transition-all border border-white/10">
-                          <Github size={18} />
                         </a>
                       </div>
                     </div>
@@ -610,7 +605,7 @@ export default function AdminDashboard() {
                     />
                   </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="grid grid-cols-1 gap-6">
                     <div className="space-y-2">
                       <label className="text-xs font-black uppercase tracking-widest text-muted-foreground flex items-center gap-2 ml-1">
                         <ExternalLink size={14} /> Live Link
@@ -621,19 +616,6 @@ export default function AdminDashboard() {
                         onChange={(e) => setFormData({ ...formData, live: e.target.value })}
                         className="w-full px-6 py-4 rounded-2xl bg-white/5 border border-white/10 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all text-white"
                         placeholder="https://..."
-                        required
-                      />
-                    </div>
-                    <div className="space-y-2">
-                      <label className="text-xs font-black uppercase tracking-widest text-muted-foreground flex items-center gap-2 ml-1">
-                        <Github size={14} /> GitHub Link
-                      </label>
-                      <input
-                        type="text"
-                        value={formData.github}
-                        onChange={(e) => setFormData({ ...formData, github: e.target.value })}
-                        className="w-full px-6 py-4 rounded-2xl bg-white/5 border border-white/10 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all text-white"
-                        placeholder="https://github.com/..."
                         required
                       />
                     </div>
