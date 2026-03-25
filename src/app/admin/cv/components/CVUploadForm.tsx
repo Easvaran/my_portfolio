@@ -14,6 +14,7 @@ const CVUploadForm = ({ initialCV }: CVUploadFormProps) => {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
   const [currentCV, setCurrentCV] = useState(initialCV);
+  const password = typeof window !== 'undefined' ? localStorage.getItem('admin_auth') : null;
 
   const fetchCurrentCV = useCallback(async () => {
     try {
@@ -46,12 +47,18 @@ const CVUploadForm = ({ initialCV }: CVUploadFormProps) => {
       return;
     }
 
+    if (!password) {
+      setError("You don't have permission to perform this action.");
+      return;
+    }
+
     setUploading(true);
     setError(null);
     setSuccess(null);
 
     const formData = new FormData();
     formData.append('file', file);
+    formData.append('password', password);
 
     try {
       const res = await fetch('/api/cv-upload', {

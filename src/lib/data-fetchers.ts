@@ -72,12 +72,18 @@ export const getInitialMessages = cache(async () => {
 
 export const getInitialCV = cache(async () => {
   try {
-    const cvPath = join(process.cwd(), 'public', 'cv.pdf');
-    const stats = await stat(cvPath);
-    return {
-      url: '/cv.pdf',
-      lastModified: stats.mtime.toISOString(),
-    };
+    const db = await connectDB();
+    if (!db) return null;
+
+    const content = await SiteContent.findOne({ section: 'cv' });
+    if (content && content.data) {
+      return {
+        url: '/api/cv/download',
+        lastModified: content.data.lastModified,
+        name: content.data.name
+      };
+    }
+    return null;
   } catch (error) {
     return null;
   }

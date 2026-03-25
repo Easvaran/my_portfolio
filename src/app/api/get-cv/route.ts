@@ -1,24 +1,25 @@
 import { NextResponse } from 'next/server';
-import { stat } from 'fs/promises';
-import { join } from 'path';
+import connectDB from '@/lib/mongodb';
+import SiteContent from '@/models/SiteContent';
+
+export const dynamic = 'force-dynamic';
 
 export async function GET() {
   try {
-    const publicPath = join(process.cwd(), 'public');
-    const cvPath = join(publicPath, 'cv.pdf');
+    await connectDB();
+    const content = await SiteContent.findOne({ section: 'cv' });
 
-    const stats = await stat(cvPath);
+    if (content && content.data) {
+      return NextResponse.json({
+        url: '/api/cv/download',
+        lastModified: content.data.lastModified,
+        name: content.data.name
+      });
+    }
 
-    return NextResponse.json({
-      url: '/cv.pdf',
-      lastModified: stats.mtime,
-    });
+    return NextResponse.json({ error: 'CV not found.' }, { status: 404 });
 
   } catch (e) {
-    const error = e as { code?: string };
-    if (error.code === 'ENOENT') {
-      return NextResponse.json({ error: 'CV not found.' }, { status: 404 });
-    }
     console.error('Get CV Error:', e);
     return NextResponse.json({ error: 'Something went wrong.' }, { status: 500 });
   }
