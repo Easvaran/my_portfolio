@@ -7,6 +7,9 @@ import Projects from '@/components/sections/Projects';
 import Contact from '@/components/sections/Contact';
 import { getInitialProjects } from '@/lib/data-fetchers';
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export default async function Home() {
   const initialProjects = await getInitialProjects();
 

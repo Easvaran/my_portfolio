@@ -23,7 +23,7 @@ export const ContentProvider = ({
 
   const fetchContent = async () => {
     try {
-      const res = await fetch('/api/content');
+      const res = await fetch('/api/content', { cache: 'no-store' });
       const data = await res.json();
       if (data && !data.error) {
         // Merge with static config to ensure no missing fields

@@ -3,6 +3,7 @@
 import React, { useState, useCallback } from 'react';
 import { Settings, Save, Loader2 } from 'lucide-react';
 import { useForm } from 'react-hook-form';
+import { useRouter } from 'next/navigation';
 
 interface ProjectsSectionFormProps {
   initialData: {
@@ -14,6 +15,7 @@ interface ProjectsSectionFormProps {
 
 const ProjectsSectionForm = ({ initialData }: ProjectsSectionFormProps) => {
   const [submitting, setSubmitting] = useState(false);
+  const router = useRouter();
   const password = typeof window !== 'undefined' ? localStorage.getItem('admin_auth') : null;
 
   const { register, handleSubmit } = useForm({
@@ -34,6 +36,7 @@ const ProjectsSectionForm = ({ initialData }: ProjectsSectionFormProps) => {
       });
       if (res.ok) {
         alert('Section updated successfully!');
+        router.refresh();
       } else {
         alert('Failed to update section.');
       }

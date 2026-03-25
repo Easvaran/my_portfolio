@@ -73,6 +73,9 @@ import VisitorTracker from "@/components/VisitorTracker";
 import BrandingManager from "@/components/BrandingManager";
 import { getInitialContent } from "@/lib/data-fetchers";
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export default async function RootLayout({
   children,
 }: Readonly<{

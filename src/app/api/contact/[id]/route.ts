@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import connectDB from '@/lib/mongodb';
 import Contact from '@/models/Contact';
+import { revalidatePath } from 'next/cache';
+
+export const dynamic = 'force-dynamic';
 
 export async function PUT(
   req: NextRequest,
@@ -25,6 +28,8 @@ export async function PUT(
     if (!updatedContact) {
       return NextResponse.json({ error: 'Message not found' }, { status: 404 });
     }
+
+    revalidatePath('/', 'layout');
 
     return NextResponse.json(updatedContact);
   } catch (error: any) {
@@ -54,6 +59,8 @@ export async function DELETE(
     if (!deletedContact) {
       return NextResponse.json({ error: 'Message not found' }, { status: 404 });
     }
+
+    revalidatePath('/', 'layout');
 
     return NextResponse.json({ message: 'Message deleted' });
   } catch (error: any) {

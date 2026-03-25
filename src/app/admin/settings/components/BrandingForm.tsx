@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form';
 import { Globe, Save, Loader2, Upload } from 'lucide-react';
 import Image from 'next/image';
 import { optimizeImage } from '@/lib/image-optimizer';
+import { useRouter } from 'next/navigation';
 
 interface BrandingFormProps {
   initialData: {
@@ -16,6 +17,7 @@ interface BrandingFormProps {
 const BrandingForm = ({ initialData }: BrandingFormProps) => {
   const [submitting, setSubmitting] = useState(false);
   const [logoPreview, setLogoPreview] = useState(initialData.logo);
+  const router = useRouter();
   const password = typeof window !== 'undefined' ? localStorage.getItem('admin_auth') : null;
 
   const { register, handleSubmit, setValue } = useForm({
@@ -50,6 +52,7 @@ const BrandingForm = ({ initialData }: BrandingFormProps) => {
 
       if (res.ok) {
         alert('Branding updated successfully!');
+        router.refresh();
       } else {
         alert('Failed to update branding.');
       }

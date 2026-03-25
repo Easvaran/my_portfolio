@@ -3,6 +3,8 @@ import connectDB from '@/lib/mongodb';
 import Contact from '@/models/Contact';
 import { verifyAdminPassword } from '@/lib/auth';
 
+export const dynamic = 'force-dynamic';
+
 // POST a new contact message
 export async function POST(req: Request) {
   try {

@@ -79,7 +79,7 @@ export default function AdminDashboard() {
 
   const fetchStats = async () => {
     try {
-      const res = await fetch(`/api/admin/stats?password=${password}`);
+      const res = await fetch(`/api/admin/stats?password=${password}`, { cache: 'no-store' });
       if (res.ok) {
         const data = await res.json();
         setStats(data);
@@ -91,7 +91,7 @@ export default function AdminDashboard() {
 
   const fetchSystemStatus = async () => {
     try {
-      const res = await fetch('/api/health');
+      const res = await fetch('/api/health', { cache: 'no-store' });
       const data = await res.json();
       setSystemStatus(data);
     } catch (err) {
@@ -103,37 +103,19 @@ export default function AdminDashboard() {
   const fetchProjects = async () => {
     try {
       const res = await fetch('/api/projects', { cache: 'no-store' });
-      
-      if (!res.ok) {
-        const text = await res.text().catch(() => 'No response body');
-        let errorData: any;
-        
-        try {
-          errorData = JSON.parse(text);
-        } catch (e) {
-          errorData = { message: text };
+      if (res.ok) {
+        const data = await res.json();
+        if (Array.isArray(data)) {
+          setProjects(data);
+          setError(null);
         }
-
-        console.error('API Error:', res.status, errorData);
-        setProjects([]);
-        setError(errorData.message || errorData.error || `Error ${res.status}`);
-        return;
-      }
-      
-      const data = await res.json();
-      
-      if (Array.isArray(data)) {
-        setProjects(data);
-        setError(null);
       } else {
-        console.error('API response is not an array:', data);
-        setProjects([]);
-        setError(data.error || 'Failed to fetch projects. API did not return an array.');
+        const errData = await res.json();
+        setError(errData.message || 'Failed to fetch projects');
       }
     } catch (err) {
       console.error('Error fetching projects:', err);
-      setError('An error occurred while fetching projects.');
-      setProjects([]);
+      setError('Connection error. Please try again later.');
     } finally {
       setLoading(false);
     }

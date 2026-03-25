@@ -31,7 +31,7 @@ const Projects = ({ initialProjects }: ProjectsProps) => {
   useEffect(() => {
     const fetchProjects = async () => {
       try {
-        const res = await fetch('/api/projects');
+        const res = await fetch('/api/projects', { cache: 'no-store' });
         const data = await res.json();
         if (Array.isArray(data) && data.length > 0) {
           setProjects(data);
