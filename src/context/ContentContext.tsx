@@ -11,9 +11,15 @@ interface ContentContextType {
 
 const ContentContext = createContext<ContentContextType | undefined>(undefined);
 
-export const ContentProvider = ({ children }: { children: React.ReactNode }) => {
-  const [content, setContent] = useState<Record<string, any>>(portfolioConfig);
-  const [loading, setLoading] = useState(true);
+export const ContentProvider = ({ 
+  children,
+  initialContent = portfolioConfig
+}: { 
+  children: React.ReactNode;
+  initialContent?: Record<string, any>;
+}) => {
+  const [content, setContent] = useState<Record<string, any>>(initialContent);
+  const [loading, setLoading] = useState(false);
 
   const fetchContent = async () => {
     try {
@@ -34,7 +40,10 @@ export const ContentProvider = ({ children }: { children: React.ReactNode }) => 
   };
 
   useEffect(() => {
-    fetchContent();
+    // We already have initial content from the server, 
+    // but we can refresh it to ensure it's up-to-date
+    // if we want to handle dynamic updates without a page refresh
+    // fetchContent();
   }, []);
 
   return (

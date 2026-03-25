@@ -18,11 +18,15 @@ interface Project {
   github: string;
 }
 
-const Projects = () => {
+interface ProjectsProps {
+  initialProjects?: Project[];
+}
+
+const Projects = ({ initialProjects }: ProjectsProps) => {
   const { content, loading: contentLoading } = useContent();
   const { title, subtitle, items: staticItems, githubLink } = content.projects || portfolioConfig.projects;
-  const [projects, setProjects] = useState<Project[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [projects, setProjects] = useState<Project[]>(initialProjects || []);
+  const [loading, setLoading] = useState(!initialProjects);
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -31,19 +35,21 @@ const Projects = () => {
         const data = await res.json();
         if (Array.isArray(data) && data.length > 0) {
           setProjects(data);
-        } else {
+        } else if (!initialProjects) {
           setProjects(staticItems || []);
         }
       } catch (err) {
         console.error('Failed to fetch projects, using static data', err);
-        setProjects(staticItems || []);
+        if (!initialProjects) {
+          setProjects(staticItems || []);
+        }
       } finally {
         setLoading(false);
       }
     };
 
     fetchProjects();
-  }, [staticItems]);
+  }, [staticItems, initialProjects]);
 
   return (
     <Section

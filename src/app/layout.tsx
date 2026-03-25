@@ -71,21 +71,24 @@ import PageTransition from "@/components/PageTransition";
 import { ContentProvider } from "@/context/ContentContext";
 import VisitorTracker from "@/components/VisitorTracker";
 import BrandingManager from "@/components/BrandingManager";
+import { getInitialContent } from "@/lib/data-fetchers";
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const initialContent = await getInitialContent();
+
   return (
     <html
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased scroll-smooth`}
     >
       <body className="font-sans bg-background text-foreground selection:bg-primary/30 selection:text-primary">
-        <ContentProvider>
+        <ContentProvider initialContent={initialContent}>
           <VisitorTracker />
-          <BrandingManager />
+          <BrandingManager initialBranding={initialContent.branding} />
           <PageTransition>{children}</PageTransition>
         </ContentProvider>
       </body>
