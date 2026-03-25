@@ -2,11 +2,11 @@
 
 import React from 'react';
 import { Plus, Trash2 } from 'lucide-react';
-import { useFieldArray, Control, UseFormRegister } from 'react-hook-form';
+import { useFieldArray } from 'react-hook-form';
 
 interface ContactMethodsProps {
-  control: Control<any>;
-  register: UseFormRegister<any>;
+  control: any;
+  register: any;
 }
 
 const ContactMethods = ({ control, register }: ContactMethodsProps) => {

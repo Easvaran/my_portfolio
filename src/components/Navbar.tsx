@@ -41,7 +41,7 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto px-6 md:px-12 flex justify-between items-center">
         <Link href="#home" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
           <span className="text-2xl font-black tracking-tighter uppercase text-white">
-            {(branding.heading || 'PORTFOLIO').split('').map((char, i) => (
+            {(branding.heading || 'PORTFOLIO').split('').map((char: string, i: number) => (
               <span key={i} className={i >= (branding.heading || 'PORTFOLIO').length / 2 ? 'text-primary' : ''}>{char}</span>
             ))}
           </span>
