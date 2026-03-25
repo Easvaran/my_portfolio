@@ -16,6 +16,11 @@ export default function AdminLayout({
   const pathname = usePathname();
 
   useEffect(() => {
+    // If we're already authorized and not on the login page, don't re-verify on every navigation
+    if (authorized && pathname !== '/admin/login') {
+      return;
+    }
+
     const checkAuth = async () => {
       const password = localStorage.getItem('admin_auth');
 
@@ -50,7 +55,7 @@ export default function AdminLayout({
     };
 
     checkAuth();
-  }, [router, pathname]);
+  }, [router, pathname, authorized]);
 
   if (pathname === '/admin/login') {
     return <>{children}</>;
