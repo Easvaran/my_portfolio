@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import connectDB from '@/lib/mongodb';
 import Project from '@/models/Project';
 import { verifyAdminPassword } from '@/lib/auth';
+import { revalidatePath } from 'next/cache';
 
 export async function PUT(
   req: NextRequest,
@@ -48,6 +49,8 @@ export async function PUT(
       return NextResponse.json({ error: 'Project not found' }, { status: 404 });
     }
 
+    revalidatePath('/', 'layout');
+
     return NextResponse.json(project);
   } catch (error: any) {
     console.error('PUT /api/projects/[id] error:', error);
@@ -67,6 +70,9 @@ export async function DELETE(req: NextRequest, { params }: { params: Promise<{ i
 
     await connectDB();
     await Project.findByIdAndDelete(id);
+
+    revalidatePath('/', 'layout');
+
     return NextResponse.json({ message: 'Project deleted' });
   } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 500 });

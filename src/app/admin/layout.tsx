@@ -16,23 +16,24 @@ export default function AdminLayout({
   const pathname = usePathname();
 
   useEffect(() => {
-    // If we're already authorized and not on the login page, don't re-verify on every navigation
-    if (authorized && pathname !== '/admin/login') {
+    // Check if we already have auth in localStorage for initial mount
+    const storedAuth = localStorage.getItem('admin_auth');
+    if (storedAuth && pathname !== '/admin/login') {
+      // We can tentatively set authorized to true while we verify in the background
+      // to avoid the flash of loader
+      setAuthorized(true);
+      setLoading(false);
+    } else if (!storedAuth && pathname !== '/admin/login') {
+      router.push('/admin/login');
+      setLoading(false);
+      return;
+    } else if (pathname === '/admin/login') {
+      setLoading(false);
       return;
     }
 
     const checkAuth = async () => {
       const password = localStorage.getItem('admin_auth');
-
-      if (pathname === '/admin/login') {
-        setLoading(false);
-        return;
-      }
-
-      if (!password) {
-        router.push('/admin/login');
-        return;
-      }
 
       try {
         const res = await fetch('/api/admin/verify-session', {
@@ -43,11 +44,14 @@ export default function AdminLayout({
         
         if (!res.ok) {
           localStorage.removeItem('admin_auth');
+          setAuthorized(false);
           router.push('/admin/login');
         } else {
           setAuthorized(true);
         }
       } catch (err) {
+        localStorage.removeItem('admin_auth');
+        setAuthorized(false);
         router.push('/admin/login');
       } finally {
         setLoading(false);
@@ -55,7 +59,7 @@ export default function AdminLayout({
     };
 
     checkAuth();
-  }, [router, pathname, authorized]);
+  }, [router, pathname]);
 
   if (pathname === '/admin/login') {
     return <>{children}</>;
@@ -77,9 +81,9 @@ export default function AdminLayout({
   }
 
   return (
-    <div className="min-h-screen bg-background text-foreground flex">
+    <div className="min-h-screen bg-background text-foreground flex flex-col md:flex-row">
       <AdminSidebar />
-      <main className="flex-grow transition-all duration-300 md:ml-64">
+      <main className="flex-grow transition-all duration-300 md:ml-64 pt-16 md:pt-0">
         {children}
       </main>
     </div>

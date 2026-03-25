@@ -3,6 +3,7 @@ import connectDB from '@/lib/mongodb';
 import SiteContent from '@/models/SiteContent';
 import { portfolioConfig } from '@/config/portfolio';
 import { verifyAdminPassword } from '@/lib/auth';
+import { revalidatePath } from 'next/cache';
 
 export const dynamic = 'force-dynamic';
 
@@ -81,6 +82,9 @@ export async function POST(req: Request) {
       { data },
       { upsert: true, new: true }
     );
+
+    // Force revalidation of all pages to show the new content
+    revalidatePath('/', 'layout');
 
     return NextResponse.json(content);
   } catch (error) {

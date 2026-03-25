@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import connectDB from '@/lib/mongodb';
 import Project from '@/models/Project';
 import { verifyAdminPassword } from '@/lib/auth';
+import { revalidatePath } from 'next/cache';
 
 export const dynamic = 'force-dynamic';
 
@@ -61,6 +62,8 @@ export async function POST(req: Request) {
       github,
       order: order || 0,
     });
+
+    revalidatePath('/', 'layout');
 
     return NextResponse.json(project, { status: 201 });
   } catch (error: any) {
