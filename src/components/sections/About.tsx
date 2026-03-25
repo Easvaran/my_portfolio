@@ -35,7 +35,7 @@ const About = () => {
           return (
             <div
               key={`stat-${stat.label}-${index}`}
-              className="p-8 rounded-2xl bg-white/5 border border-white/10 flex flex-col items-center text-center group hover:bg-white/10 transition-all duration-300 backdrop-blur-sm"
+              className="p-8 rounded-2xl glass flex flex-col items-center text-center group glass-hover"
             >
               <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center text-primary mb-6 group-hover:scale-110 transition-transform duration-300 shadow-inner">
                 {isUrl ? (
@@ -47,26 +47,26 @@ const About = () => {
                 )}
               </div>
               <h3 className="text-3xl font-bold mb-2 tracking-tight text-foreground">{stat.value}</h3>
-              <p className="text-secondary font-medium uppercase text-sm tracking-wider">{stat.label}</p>
+              <p className="text-muted-foreground font-medium uppercase text-sm tracking-wider">{stat.label}</p>
             </div>
           );
         })}
       </div>
       
-      <div className="mt-16 bg-white/5 p-10 rounded-3xl border border-white/10 backdrop-blur-md">
+      <div className="mt-16 glass p-10 rounded-3xl">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <div className="space-y-6">
             <h3 className="text-3xl font-bold tracking-tight text-foreground">{detailsTitle}</h3>
             {Array.isArray(paragraphs) && paragraphs.map((paragraph: string, index: number) => (
-              <p key={`para-${index}`} className="text-secondary leading-relaxed text-lg">
+              <p key={`para-${index}`} className="text-muted-foreground leading-relaxed text-lg">
                 {paragraph}
               </p>
             ))}
           </div>
           {Array.isArray(values) && values.length > 0 && (
             <div className="relative group">
-              <div className="absolute inset-0 bg-primary/20 blur-2xl rounded-3xl group-hover:bg-primary/30 transition-all duration-500" />
-              <div className="relative bg-black/40 p-8 rounded-3xl border border-white/10 backdrop-blur-xl">
+              <div className="absolute inset-0 bg-primary/10 blur-2xl rounded-3xl group-hover:bg-primary/20 transition-all duration-500" />
+              <div className="relative glass p-8 rounded-3xl">
                 <ul className="space-y-6">
                   {values.map((value: { color: string; title: string; description: string }, index: number) => (
                     <li key={`val-${value.title}-${index}`} className="flex items-start gap-4">
@@ -75,7 +75,7 @@ const About = () => {
                       </div>
                       <div>
                         <h4 className="font-bold text-foreground">{value.title}</h4>
-                        <p className="text-secondary text-sm">{value.description}</p>
+                        <p className="text-muted-foreground text-sm">{value.description}</p>
                       </div>
                     </li>
                   ))}

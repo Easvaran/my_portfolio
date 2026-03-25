@@ -37,7 +37,6 @@ const ProjectModal = ({ isOpen, onClose, project, onSuccess, nextOrder }: Projec
         image: project.image,
         tags: project.tags.join(', '),
         live: project.live,
-        github: project.github,
         order: project.order
       });
       setImagePreview(project.image);
@@ -48,7 +47,6 @@ const ProjectModal = ({ isOpen, onClose, project, onSuccess, nextOrder }: Projec
         image: '',
         tags: '',
         live: '',
-        github: '',
         order: nextOrder
       });
       setImagePreview('');
@@ -240,19 +238,12 @@ const ProjectModal = ({ isOpen, onClose, project, onSuccess, nextOrder }: Projec
                   <textarea rows={4} {...register('description')} required className="w-full px-6 py-4 rounded-2xl bg-white/5 border border-white/10 focus:border-primary outline-none text-white leading-relaxed" placeholder="Tell the world about your project..." />
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 gap-6">
                   <div className="space-y-2">
                     <label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground ml-1">Live Demo URL</label>
                     <div className="relative">
                       <LinkIcon className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground" size={18} />
                       <input type="url" {...register('live')} className="w-full pl-12 pr-6 py-4 rounded-2xl bg-white/5 border border-white/10 focus:border-primary outline-none text-white" placeholder="https://..." />
-                    </div>
-                  </div>
-                  <div className="space-y-2">
-                    <label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground ml-1">GitHub Repo URL</label>
-                    <div className="relative">
-                      <LinkIcon className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground" size={18} />
-                      <input type="url" {...register('github')} className="w-full pl-12 pr-6 py-4 rounded-2xl bg-white/5 border border-white/10 focus:border-primary outline-none text-white" placeholder="https://github.com/..." />
                     </div>
                   </div>
                 </div>

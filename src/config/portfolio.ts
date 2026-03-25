@@ -73,7 +73,6 @@ export const portfolioConfig = {
         image: 'https://images.unsplash.com/photo-1557821552-17105176677c?auto=format&fit=crop&q=80&w=1000',
         tags: ['Next.js', 'Stripe', 'MongoDB', 'Tailwind'],
         live: 'https://example.com',
-        github: 'https://github.com',
       },
       {
         title: 'SaaS Dashboard',
@@ -81,7 +80,6 @@ export const portfolioConfig = {
         image: 'https://images.unsplash.com/photo-1551288049-bbda38a5f971?auto=format&fit=crop&q=80&w=1000',
         tags: ['React', 'Chart.js', 'Firebase', 'TypeScript'],
         live: 'https://example.com',
-        github: 'https://github.com',
       },
       {
         title: 'AI Image Generator',
@@ -89,10 +87,8 @@ export const portfolioConfig = {
         image: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80&w=1000',
         tags: ['Next.js', 'OpenAI API', 'Supabase', 'Framer Motion'],
         live: 'https://example.com',
-        github: 'https://github.com',
       },
     ],
-    githubLink: 'https://github.com',
   },
   socials: [
     { name: 'Github', href: 'https://github.com', icon: 'Github' },

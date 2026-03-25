@@ -13,7 +13,6 @@ interface Project {
   image: string;
   tags: string[];
   live: string;
-  github: string;
   order: number;
 }
 
@@ -22,7 +21,6 @@ interface ProjectsManagerProps {
   sectionData: {
     title: string;
     subtitle: string;
-    githubLink: string;
   };
 }
 

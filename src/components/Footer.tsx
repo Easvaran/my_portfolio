@@ -10,13 +10,13 @@ const Footer = () => {
   const { content } = useContent();
   
   return (
-    <footer className="py-12 px-6 border-t border-white/10 bg-black/50 backdrop-blur-sm">
+    <footer className="py-12 px-6 border-t glass">
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center space-y-8 md:space-y-0">
         <div>
           <Link href="#home" className="text-2xl font-bold tracking-tighter">
             PORT<span className="text-primary">FOLIO</span>
           </Link>
-          <p className="mt-2 text-secondary max-w-xs">
+          <p className="mt-2 text-muted-foreground max-w-xs">
             {content.footer.text}
           </p>
         </div>
@@ -41,7 +41,7 @@ const Footer = () => {
                 href={link.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-secondary hover:text-primary transition-colors"
+                className="text-muted-foreground hover:text-primary transition-colors"
                 aria-label={link.name}
               >
                 {isUrl ? (
@@ -54,7 +54,7 @@ const Footer = () => {
           })}
         </div>
       </div>
-      <div className="mt-12 text-center text-sm text-secondary">
+      <div className="mt-12 text-center text-sm text-muted-foreground">
         {content.footer.copyright}
       </div>
     </footer>

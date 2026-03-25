@@ -18,7 +18,7 @@ export async function PUT(
       return NextResponse.json({ error: 'Invalid JSON payload' }, { status: 400 });
     }
 
-    const { title, description, image, tags, live, github, order, password } = body;
+    const { title, description, image, tags, live, order, password } = body;
 
     const isAuthorized = await verifyAdminPassword(password);
     if (!isAuthorized) {
@@ -26,7 +26,7 @@ export async function PUT(
     }
 
     // Basic validation
-    if (!title || !description || !image || !live || !github) {
+    if (!title || !description || !image || !live) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
     }
 
@@ -39,7 +39,6 @@ export async function PUT(
         image, 
         tags: Array.isArray(tags) ? tags : [], 
         live, 
-        github, 
         order: order || 0 
       },
       { new: true }

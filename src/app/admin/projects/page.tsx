@@ -11,8 +11,7 @@ export default async function ProjectsSettings() {
   
   const sectionData = {
     title: content.projects?.title || 'Featured Projects',
-    subtitle: content.projects?.subtitle || 'A collection of my work',
-    githubLink: content.projects?.githubLink || ''
+    subtitle: content.projects?.subtitle || 'A collection of my work'
   };
 
   return (

@@ -85,7 +85,7 @@ const Contact = () => {
 
             return (
               <div key={`contact-info-${item.label}-${index}`} className="flex items-start gap-6">
-                <div className="w-16 h-16 rounded-2xl bg-card border border-white/10 flex items-center justify-center text-primary group-hover:scale-110 transition-transform duration-300">
+                <div className="w-16 h-16 rounded-2xl glass glass-hover flex items-center justify-center text-primary group-hover:scale-110 transition-transform duration-300">
                   {isUrl ? (
                     <img src={item.icon} alt={item.label} className="w-8 h-8" />
                   ) : (
@@ -108,21 +108,21 @@ const Contact = () => {
           initial={{ opacity: 0, y: 50 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8, delay: 0.4 }}
-          className="lg:col-span-2 p-8 md:p-12 rounded-[40px] bg-card border border-white/10 shadow-2xl shadow-black/40 space-y-8"
+          className="lg:col-span-2 p-8 md:p-12 rounded-[40px] glass space-y-8"
         >
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
             <div className="space-y-2">
               <label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground ml-1">Your Name</label>
-              <input type="text" name="name" value={formState.name} onChange={handleChange} required className="w-full px-6 py-4 rounded-2xl bg-white/5 border border-white/10 focus:border-primary outline-none text-white" />
+              <input type="text" name="name" value={formState.name} onChange={handleChange} required className="w-full px-6 py-4 rounded-2xl bg-secondary text-secondary-foreground focus:border-primary outline-none" />
             </div>
             <div className="space-y-2">
               <label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground ml-1">Your Email</label>
-              <input type="email" name="email" value={formState.email} onChange={handleChange} required className="w-full px-6 py-4 rounded-2xl bg-white/5 border border-white/10 focus:border-primary outline-none text-white" />
+              <input type="email" name="email" value={formState.email} onChange={handleChange} required className="w-full px-6 py-4 rounded-2xl bg-secondary text-secondary-foreground focus:border-primary outline-none" />
             </div>
           </div>
           <div className="space-y-2">
             <label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground ml-1">Your Message</label>
-            <textarea name="message" value={formState.message} onChange={handleChange} required rows={5} className="w-full px-6 py-4 rounded-2xl bg-white/5 border border-white/10 focus:border-primary outline-none text-white"></textarea>
+            <textarea name="message" value={formState.message} onChange={handleChange} required rows={5} className="w-full px-6 py-4 rounded-2xl bg-secondary text-secondary-foreground focus:border-primary outline-none"></textarea>
           </div>
           
           {response && (
@@ -134,7 +134,7 @@ const Contact = () => {
           <button 
             type="submit" 
             disabled={isSubmitting}
-            className="w-full py-5 bg-primary hover:bg-primary/90 text-white font-black uppercase tracking-widest rounded-2xl transition-all shadow-xl shadow-primary/25 flex items-center justify-center gap-3 disabled:opacity-70"
+            className="w-full py-5 bg-primary hover:bg-primary/90 text-primary-foreground font-black uppercase tracking-widest rounded-2xl transition-all shadow-xl shadow-primary/25 flex items-center justify-center gap-3 disabled:opacity-70"
           >
             {isSubmitting ? <Loader2 className="animate-spin" size={20} /> : 'Send Message'}
           </button>

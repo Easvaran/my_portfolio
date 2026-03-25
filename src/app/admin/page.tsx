@@ -35,7 +35,6 @@ interface Project {
   image: string;
   tags: string[];
   live: string;
-  github: string;
   order: number;
 }
 
@@ -56,7 +55,6 @@ export default function AdminDashboard() {
     image: '',
     tags: '',
     live: '',
-    github: '',
     order: 0
   });
   const [selectedFile, setSelectedFile] = useState<File | null>(null);

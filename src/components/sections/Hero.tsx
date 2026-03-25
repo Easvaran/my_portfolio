@@ -19,8 +19,8 @@ const Hero = () => {
     <section id="home" className="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden px-6">
       {/* Background Decor */}
       <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
-        <div className="absolute top-[20%] left-[10%] w-[40vw] h-[40vw] rounded-full bg-primary/20 blur-[100px] animate-pulse" />
-        <div className="absolute bottom-[20%] right-[10%] w-[30vw] h-[30vw] rounded-full bg-emerald-500/10 blur-[100px] animate-pulse delay-700" />
+        <div className="absolute top-[20%] left-[10%] w-[40vw] h-[40vw] rounded-full bg-primary/10 blur-[120px] animate-pulse" />
+        <div className="absolute bottom-[20%] right-[10%] w-[30vw] h-[30vw] rounded-full bg-secondary/10 blur-[100px] animate-pulse delay-700" />
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto text-center">
@@ -64,7 +64,7 @@ const Hero = () => {
           className="text-4xl sm:text-6xl md:text-8xl lg:text-9xl font-black tracking-tighter mb-10 leading-[0.85]"
         >
           {subtitleMain} <br />
-          <span className="bg-gradient-to-r from-primary via-emerald-400 to-blue-500 bg-clip-text text-transparent">
+          <span className="bg-gradient-to-r from-primary via-secondary to-primary bg-clip-text text-transparent">
             {subtitleAccent}
           </span>
         </motion.h1>
@@ -73,7 +73,7 @@ const Hero = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}
-          className="text-lg md:text-xl text-secondary max-w-2xl mx-auto mb-10 leading-relaxed"
+          className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-10 leading-relaxed"
         >
           {description}
         </motion.p>
@@ -88,7 +88,7 @@ const Hero = () => {
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
               <Link
                 href={ctaPrimary.href}
-                className="group px-8 py-4 bg-primary text-white font-bold rounded-xl hover:bg-primary/90 transition-all flex items-center gap-2 shadow-lg shadow-primary/25"
+                className="group px-8 py-4 bg-primary text-primary-foreground font-bold rounded-xl hover:bg-primary/90 transition-all flex items-center gap-2 shadow-lg shadow-primary/25"
               >
                 {ctaPrimary.text}
                 <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />

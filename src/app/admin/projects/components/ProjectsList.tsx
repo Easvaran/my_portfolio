@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Image from 'next/image';
-import { Edit3, Trash2, ExternalLink, Github } from 'lucide-react';
+import { Edit3, Trash2, ExternalLink } from 'lucide-react';
 
 interface Project {
   _id: string;
@@ -11,7 +11,6 @@ interface Project {
   image: string;
   tags: string[];
   live: string;
-  github: string;
   order: number;
 }
 
@@ -81,11 +80,6 @@ const ProjectsList = ({ projects, onEdit, onDelete }: ProjectsListProps) => {
               {project.live && (
                 <a href={project.live} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-muted-foreground hover:text-primary transition-colors">
                   <ExternalLink size={14} /> Live Demo
-                </a>
-              )}
-              {project.github && (
-                <a href={project.github} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-muted-foreground hover:text-primary transition-colors">
-                  <Github size={14} /> Source Code
                 </a>
               )}
             </div>

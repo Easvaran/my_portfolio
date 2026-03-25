@@ -2,8 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Section from '../Section';
-import Link from 'next/link';
-import { Github, Loader2 } from 'lucide-react';
+import { Loader2 } from 'lucide-react';
 import ProjectCard from '../ProjectCard';
 import { portfolioConfig } from '@/config/portfolio';
 import { useContent } from '@/context/ContentContext';
@@ -15,7 +14,6 @@ interface Project {
   image: string;
   tags: string[];
   live: string;
-  github: string;
 }
 
 interface ProjectsProps {
@@ -24,7 +22,7 @@ interface ProjectsProps {
 
 const Projects = ({ initialProjects }: ProjectsProps) => {
   const { content, loading: contentLoading } = useContent();
-  const { title, subtitle, items: staticItems, githubLink } = content.projects || portfolioConfig.projects;
+  const { title, subtitle, items: staticItems } = content.projects || portfolioConfig.projects;
   const [projects, setProjects] = useState<Project[]>(initialProjects || []);
   const [loading, setLoading] = useState(!initialProjects);
 
@@ -68,17 +66,6 @@ const Projects = ({ initialProjects }: ProjectsProps) => {
           ))}
         </div>
       )}
-      
-      <div className="mt-20 text-center">
-        <Link
-          href={githubLink}
-          target="_blank"
-          className="px-10 py-5 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 transition-all font-bold inline-flex items-center gap-3 backdrop-blur-sm group"
-        >
-          <Github size={24} className="group-hover:rotate-12 transition-transform" />
-          More Projects on GitHub
-        </Link>
-      </div>
     </Section>
   );
 };

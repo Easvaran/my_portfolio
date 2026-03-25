@@ -50,7 +50,7 @@ const Skills = () => {
               initial={{ opacity: 0, y: 30 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.5, delay: 0.1 + (index * 0.05) }}
-              className="p-8 rounded-3xl bg-card border border-white/10 shadow-2xl shadow-black/40"
+              className="p-8 rounded-3xl glass glass-hover"
             >
               <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center text-primary mb-6 group-hover:scale-110 transition-transform duration-300">
                 {isUrl ? (
@@ -62,7 +62,7 @@ const Skills = () => {
               <h3 className="text-xl font-bold text-white mb-4">{category.title}</h3>
               <div className="flex flex-wrap gap-2">
                 {Array.isArray(category.skills) && category.skills.map((skill: string, sIndex: number) => (
-                  <span key={sIndex} className="px-3 py-1 rounded-lg bg-white/5 text-secondary text-xs font-medium border border-white/5">
+                  <span key={sIndex} className="px-3 py-1 rounded-lg bg-secondary text-secondary-foreground text-xs font-medium">
                     {skill}
                   </span>
                 ))}
