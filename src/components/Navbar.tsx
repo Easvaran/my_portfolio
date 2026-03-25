@@ -13,10 +13,12 @@ const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [mounted, setMounted] = useState(false);
   const { content } = useContent();
-  const [branding, setBranding] = useState({
+  
+  // Use branding from context instead of local fetch
+  const branding = content.branding || {
     logo: '',
     heading: 'PORTFOLIO'
-  });
+  };
 
   useEffect(() => {
     setMounted(true);
@@ -25,25 +27,6 @@ const Navbar = () => {
     };
     window.addEventListener('scroll', handleScroll);
     
-    // Fetch dynamic branding
-    const fetchBranding = async () => {
-      try {
-        const res = await fetch('/api/content?section=branding');
-        if (res.ok) {
-          const result = await res.json();
-          if (result && result.data) {
-            setBranding({
-              logo: result.data.logo || '',
-              heading: result.data.heading || 'PORTFOLIO'
-            });
-          }
-        }
-      } catch (err) {
-        console.error('Navbar branding fetch failed:', err);
-      }
-    };
-    
-    fetchBranding();
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -67,13 +50,13 @@ const Navbar = () => {
         {/* Desktop Nav */}
         <div className="hidden md:flex items-center space-x-8">
           {navigation.map((link: { name: string; href: string }) => (
-            <Link
+            <a
               key={link.name}
               href={link.href}
-              className="text-sm font-medium hover:text-primary transition-colors"
+              className="text-sm font-medium hover:text-primary transition-colors cursor-pointer"
             >
               {link.name}
-            </Link>
+            </a>
           ))}
           <Link
             href="/admin"
@@ -104,14 +87,14 @@ const Navbar = () => {
           >
             <div className="flex flex-col p-6 space-y-4">
               {navigation.map((link: { name: string; href: string }) => (
-                <Link
+                <a
                   key={link.name}
                   href={link.href}
                   onClick={() => setIsOpen(false)}
-                  className="text-lg font-medium hover:text-primary transition-colors"
+                  className="text-lg font-medium hover:text-primary transition-colors cursor-pointer"
                 >
                   {link.name}
-                </Link>
+                </a>
               ))}
               <Link
                 href="/admin"

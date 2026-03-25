@@ -1,9 +1,10 @@
+import { cache } from 'react';
 import connectDB from './mongodb';
 import SiteContent from '@/models/SiteContent';
 import Project from '@/models/Project';
 import { portfolioConfig } from '@/config/portfolio';
 
-export async function getInitialContent() {
+export const getInitialContent = cache(async () => {
   try {
     const db = await connectDB();
     if (!db) {
@@ -29,9 +30,9 @@ export async function getInitialContent() {
     console.error('getInitialContent error:', error);
     return portfolioConfig;
   }
-}
+});
 
-export async function getInitialProjects() {
+export const getInitialProjects = cache(async () => {
   try {
     const db = await connectDB();
     if (!db) {
@@ -46,4 +47,4 @@ export async function getInitialProjects() {
     console.error('getInitialProjects error:', error);
     return portfolioConfig.projects.items;
   }
-}
+});
