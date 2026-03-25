@@ -50,21 +50,27 @@ const Skills = () => {
               initial={{ opacity: 0, y: 30 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.5, delay: 0.1 + (index * 0.05) }}
-              className="p-8 rounded-3xl glass glass-hover"
+              className="p-8 rounded-[32px] glass glass-hover relative overflow-hidden group"
             >
-              <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center text-primary mb-6 group-hover:scale-110 transition-transform duration-300">
+              <div className="absolute top-0 right-0 w-24 h-24 bg-primary/5 rounded-full -mr-12 -mt-12 blur-2xl group-hover:bg-primary/10 transition-colors" />
+              
+              <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center text-primary mb-8 group-hover:scale-110 group-hover:rotate-6 transition-all duration-500 shadow-inner relative z-10 border border-primary/20">
                 {isUrl ? (
-                  <img src={category.icon} alt={category.title} className="w-6 h-6" />
+                  <img src={category.icon} alt={category.title} className="w-8 h-8 object-contain" />
                 ) : (
-                  <Icon size={24} />
+                  <Icon size={32} strokeWidth={2.5} />
                 )}
               </div>
-              <h3 className="text-xl font-bold text-white mb-4">{category.title}</h3>
-              <div className="flex flex-wrap gap-2">
+              <h3 className="text-2xl font-black text-white mb-6 tracking-tighter uppercase italic">{category.title}</h3>
+              <div className="flex flex-wrap gap-3">
                 {Array.isArray(category.skills) && category.skills.map((skill: string, sIndex: number) => (
-                  <span key={sIndex} className="px-3 py-1 rounded-lg bg-secondary text-secondary-foreground text-xs font-medium">
+                  <motion.span 
+                    key={sIndex} 
+                    whileHover={{ scale: 1.1, x: 5 }}
+                    className="px-4 py-2 rounded-xl bg-white/5 text-muted-foreground text-[10px] font-black uppercase tracking-widest border border-white/5 hover:text-primary hover:border-primary/30 transition-all cursor-default"
+                  >
                     {skill}
-                  </span>
+                  </motion.span>
                 ))}
               </div>
             </motion.div>

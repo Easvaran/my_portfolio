@@ -19,52 +19,55 @@ const Hero = () => {
     <section id="home" className="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden px-6">
       {/* Background Decor */}
       <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
-        <div className="absolute top-[20%] left-[10%] w-[40vw] h-[40vw] rounded-full bg-primary/10 blur-[120px] animate-pulse" />
-        <div className="absolute bottom-[20%] right-[10%] w-[30vw] h-[30vw] rounded-full bg-secondary/10 blur-[100px] animate-pulse delay-700" />
+        <div className="absolute top-[-10%] left-[-10%] w-[60vw] h-[60vw] rounded-full bg-primary/20 blur-[140px] animate-pulse" />
+        <div className="absolute bottom-[-10%] right-[-10%] w-[50vw] h-[50vw] rounded-full bg-secondary/20 blur-[120px] animate-pulse delay-1000" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.03] mix-blend-overlay" />
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto text-center">
         {profileImage && (
           <motion.div
-            initial={{ opacity: 0, scale: 0.5 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8 }}
-            className="mb-8 relative inline-block"
+            initial={{ opacity: 0, scale: 0.5, rotate: -10 }}
+            animate={{ opacity: 1, scale: 1, rotate: 0 }}
+            transition={{ type: "spring", stiffness: 100, damping: 15, duration: 0.8 }}
+            className="mb-10 relative inline-block"
           >
-            <div className="absolute inset-0 bg-primary/20 blur-2xl rounded-full" />
-            <div className="relative w-32 h-32 md:w-40 md:h-40 rounded-full border-2 border-primary/20 p-2 bg-background/50 backdrop-blur-sm overflow-hidden group">
+            <div className="absolute inset-0 bg-primary/30 blur-3xl rounded-full animate-pulse" />
+            <div className="relative w-36 h-32 md:w-48 md:h-48 rounded-[40px] border-2 border-white/10 p-2 bg-card/50 backdrop-blur-md overflow-hidden group rotate-3 hover:rotate-0 transition-all duration-500 shadow-2xl">
               <Image
                 src={profileImage}
                 alt={name || 'Profile'}
                 fill
                 priority
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                className="object-cover rounded-full group-hover:scale-110 transition-transform duration-700"
+                className="object-cover rounded-[32px] group-hover:scale-110 transition-transform duration-700"
               />
             </div>
           </motion.div>
         )}
 
         <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
           className="mb-8 flex flex-col items-center gap-4"
         >
-          <span className="px-5 py-2 rounded-full bg-primary/10 text-primary border border-primary/20 text-xs font-black tracking-[0.2em] uppercase">
+          <span className="px-6 py-2 rounded-full glass text-primary border border-primary/20 text-[10px] font-black tracking-[0.3em] uppercase">
             {title || 'Portfolio'}
           </span>
-          <p className="text-xl md:text-2xl font-bold text-white/90 tracking-tight">Hi, I&apos;m {name || 'Developer'}</p>
+          <p className="text-xl md:text-2xl font-bold text-white tracking-tight">
+            Greetings, I&apos;m <span className="text-primary">{name || 'Developer'}</span>
+          </p>
         </motion.div>
 
         <motion.h1
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          className="text-4xl sm:text-6xl md:text-8xl lg:text-9xl font-black tracking-tighter mb-10 leading-[0.85]"
+          transition={{ duration: 0.8, delay: 0.3 }}
+          className="text-5xl sm:text-7xl md:text-8xl lg:text-[10rem] font-black tracking-tighter mb-12 leading-[0.8] text-white"
         >
           {subtitleMain} <br />
-          <span className="bg-gradient-to-r from-primary via-secondary to-primary bg-clip-text text-transparent">
+          <span className="text-gradient-primary">
             {subtitleAccent}
           </span>
         </motion.h1>
@@ -73,7 +76,7 @@ const Hero = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}
-          className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-10 leading-relaxed"
+          className="text-lg md:text-2xl text-muted-foreground max-w-3xl mx-auto mb-12 leading-relaxed font-medium"
         >
           {description}
         </motion.p>
@@ -81,28 +84,28 @@ const Hero = () => {
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.6 }}
-          className="flex flex-col sm:flex-row items-center justify-center gap-6"
+          transition={{ duration: 0.8, delay: 0.5 }}
+          className="flex flex-col sm:flex-row items-center justify-center gap-8"
         >
           {ctaPrimary && (
-            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+            <motion.div whileHover={{ scale: 1.05, y: -5 }} whileTap={{ scale: 0.95 }}>
               <Link
                 href={ctaPrimary.href}
-                className="group px-8 py-4 bg-primary text-primary-foreground font-bold rounded-xl hover:bg-primary/90 transition-all flex items-center gap-2 shadow-lg shadow-primary/25"
+                className="group px-10 py-5 bg-primary text-white font-black uppercase tracking-widest rounded-2xl hover:bg-primary/90 transition-all flex items-center gap-3 shadow-2xl shadow-primary/40"
               >
                 {ctaPrimary.text}
-                <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
+                <ArrowRight size={20} className="group-hover:translate-x-2 transition-transform" />
               </Link>
             </motion.div>
           )}
-          <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+          <motion.div whileHover={{ scale: 1.05, y: -5 }} whileTap={{ scale: 0.95 }}>
             <a
               href="/cv.pdf"
               download
-              className="group px-8 py-4 bg-white/5 text-foreground font-bold rounded-xl hover:bg-white/10 border border-white/10 transition-all flex items-center gap-2 backdrop-blur-sm"
+              className="group px-10 py-5 glass text-white font-black uppercase tracking-widest rounded-2xl hover:bg-white/10 transition-all flex items-center gap-3"
             >
               Download CV
-              <Download size={20} className="group-hover:-translate-y-1 transition-transform" />
+              <Download size={20} className="group-hover:translate-y-1 transition-transform" />
             </a>
           </motion.div>
         </motion.div>

@@ -247,45 +247,39 @@ export default function AdminDashboard() {
   }
 
   return (
-    <>
-      <div className="p-6 md:p-12 transition-all duration-300">
-        <div className="max-w-7xl mx-auto">
-          {/* Back to Home Button */}
-            <div className="mb-8">
-              <Link 
-                href="/"
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white/5 border border-white/10 text-muted-foreground hover:text-white hover:bg-white/10 transition-all text-sm font-bold group"
-              >
-                <ArrowLeft size={18} className="group-hover:-translate-x-1 transition-transform" />
-                Back to Home
-              </Link>
-            </div>
+    <div className="min-h-screen bg-background text-foreground p-6 md:p-12">
+      {/* Background Decor */}
+      <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
+        <div className="absolute top-[-10%] right-[-10%] w-[50vw] h-[50vw] rounded-full bg-primary/5 blur-[120px]" />
+        <div className="absolute bottom-[-10%] left-[-10%] w-[40vw] h-[40vw] rounded-full bg-secondary/5 blur-[100px]" />
+      </div>
 
-            {/* Header with Search and Profile */}
-            <div className="flex flex-col md:flex-row justify-between items-center mb-10 gap-6 border-b border-white/5 pb-8">
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center text-primary shadow-inner shadow-primary/20">
-                  <LayoutDashboard size={24} strokeWidth={2.5} />
-                </div>
-                <div>
-                  <h1 className="text-3xl font-black tracking-tight text-white">Dashboard Overview</h1>
-                  <p className="text-muted-foreground text-sm font-medium">Welcome back, Administrator</p>
-                </div>
-              </div>
-              
-              <div className="flex items-center gap-4">
-                <div className="relative group hidden lg:block">
-                  <input 
-                    type="text" 
-                    placeholder="Search projects..." 
-                    className="px-6 py-3 rounded-xl bg-white/5 border border-white/10 focus:border-primary focus:ring-4 focus:ring-primary/10 outline-none transition-all text-sm w-64 placeholder:text-muted-foreground"
-                  />
-                </div>
-                <div className="w-10 h-10 rounded-xl bg-primary/20 border border-primary/20 flex items-center justify-center text-primary font-black text-xs group cursor-pointer hover:bg-primary hover:text-white transition-all">
-                  AD
-                </div>
-              </div>
-            </div>
+      <div className="relative z-10 max-w-7xl mx-auto space-y-12">
+        {/* Header */}
+        <header className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+          <div className="space-y-2">
+            <h1 className="text-5xl font-black tracking-tighter text-white uppercase">Dashboard</h1>
+            <p className="text-muted-foreground font-medium flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+              System Status: <span className="text-white">Operational</span>
+            </p>
+          </div>
+          <div className="flex items-center gap-4">
+            <button 
+              onClick={openAddModal}
+              className="px-8 py-4 bg-primary text-white font-black uppercase tracking-widest rounded-2xl hover:bg-primary/90 transition-all shadow-xl shadow-primary/20 flex items-center gap-3"
+            >
+              <Plus size={20} />
+              New Project
+            </button>
+            <Link 
+              href="/"
+              className="p-4 glass rounded-2xl text-white hover:bg-white/10 transition-all"
+            >
+              <Layout size={24} />
+            </Link>
+          </div>
+        </header>
 
             {/* System Status Display */}
             {systemStatus && (
