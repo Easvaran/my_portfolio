@@ -25,7 +25,11 @@ const About = () => {
     >
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
         {Array.isArray(stats) && stats.map((stat: { value: string; label: string; icon: string }, index: number) => {
-          const isUrl = typeof stat.icon === 'string' && (stat.icon.startsWith('http') || stat.icon.startsWith('/'));
+          const isUrl = typeof stat.icon === 'string' && (
+            stat.icon.startsWith('http') || 
+            stat.icon.startsWith('/') || 
+            stat.icon.startsWith('data:image')
+          );
           const IconComponent = !isUrl && iconMap[stat.icon] ? iconMap[stat.icon] : null;
 
           return (

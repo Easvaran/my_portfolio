@@ -37,7 +37,13 @@ const Skills = () => {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
         {Array.isArray(categories) && categories.map((category: any, index: number) => {
-          const Icon = (Icons as any)[category.icon] || Icons.Code;
+          const isUrl = typeof category.icon === 'string' && (
+            category.icon.startsWith('http') || 
+            category.icon.startsWith('/') || 
+            category.icon.startsWith('data:image')
+          );
+          const Icon = !isUrl && (Icons as any)[category.icon] ? (Icons as any)[category.icon] : Icons.Code;
+
           return (
             <motion.div 
               key={index} 
@@ -46,8 +52,12 @@ const Skills = () => {
               transition={{ duration: 0.5, delay: 0.1 + (index * 0.05) }}
               className="p-8 rounded-3xl bg-card border border-white/10 shadow-2xl shadow-black/40"
             >
-              <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center text-primary mb-6">
-                <Icon size={24} />
+              <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center text-primary mb-6 group-hover:scale-110 transition-transform duration-300">
+                {isUrl ? (
+                  <img src={category.icon} alt={category.title} className="w-6 h-6" />
+                ) : (
+                  <Icon size={24} />
+                )}
               </div>
               <h3 className="text-xl font-bold text-white mb-4">{category.title}</h3>
               <div className="flex flex-wrap gap-2">

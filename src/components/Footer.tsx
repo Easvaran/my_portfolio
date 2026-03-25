@@ -23,7 +23,12 @@ const Footer = () => {
 
         <div className="flex space-x-6">
           {content.socials.map((link: { icon: string; name: string; href: string }, index: number) => {
-            const IconComponent = iconMap[link.icon] || Icons.Link;
+            const isUrl = typeof link.icon === 'string' && (
+              link.icon.startsWith('http') || 
+              link.icon.startsWith('/') || 
+              link.icon.startsWith('data:image')
+            );
+            const IconComponent = !isUrl && iconMap[link.icon] ? iconMap[link.icon] : Icons.Link;
             
             // Skip rendering if the URL is invalid or just a placeholder to prevent Next.js prefetch errors
             const isValidUrl = link.href && link.href !== 'https://' && link.href.startsWith('http');
@@ -39,7 +44,11 @@ const Footer = () => {
                 className="text-secondary hover:text-primary transition-colors"
                 aria-label={link.name}
               >
-                <IconComponent size={24} />
+                {isUrl ? (
+                  <img src={link.icon} alt={link.name} className="w-6 h-6" />
+                ) : (
+                  <IconComponent size={24} />
+                )}
               </Link>
             );
           })}

@@ -1,18 +1,3 @@
-import { 
-  Github, 
-  Linkedin, 
-  Twitter, 
-  Mail, 
-  Rocket, 
-  Code, 
-  Palette, 
-  User, 
-  Layout, 
-  Server, 
-  Wrench, 
-  Plus 
-} from 'lucide-react';
-
 export const portfolioConfig = {
   navigation: [
     { name: 'Home', href: '#home' },
@@ -34,10 +19,10 @@ export const portfolioConfig = {
     title: 'About Me',
     subtitle: "I'm a passionate full-stack developer with a focus on building modern, performant web applications. I love turning complex ideas into simple, elegant digital solutions.",
     stats: [
-      { label: 'Years Experience', value: '5+', icon: Rocket },
-      { label: 'Projects Completed', value: '50+', icon: Code },
-      { label: 'Design Skills', value: '90%', icon: Palette },
-      { label: 'Client Satisfaction', value: '100%', icon: User },
+      { label: 'Years Experience', value: '5+', icon: 'Rocket' },
+      { label: 'Projects Completed', value: '50+', icon: 'Code' },
+      { label: 'Design Skills', value: '90%', icon: 'Palette' },
+      { label: 'Client Satisfaction', value: '100%', icon: 'User' },
     ],
     details: {
       title: 'A Little More About Me',
@@ -58,22 +43,22 @@ export const portfolioConfig = {
     categories: [
       {
         title: 'Frontend',
-        icon: Layout,
+        icon: 'Layout',
         skills: ['React', 'Next.js', 'TypeScript', 'Tailwind CSS', 'Framer Motion', 'Redux'],
       },
       {
         title: 'Backend',
-        icon: Server,
+        icon: 'Server',
         skills: ['Node.js', 'Express', 'MongoDB', 'PostgreSQL', 'REST API', 'GraphQL'],
       },
       {
         title: 'Tools & DevOps',
-        icon: Wrench,
+        icon: 'Wrench',
         skills: ['Git', 'Docker', 'AWS', 'Vercel', 'Firebase', 'CI/CD'],
       },
       {
         title: 'Other',
-        icon: Plus,
+        icon: 'Plus',
         skills: ['UI/UX Design', 'Agile', 'Unit Testing', 'SEO', 'Mobile First', 'Microservices'],
       },
     ],
@@ -110,10 +95,10 @@ export const portfolioConfig = {
     githubLink: 'https://github.com',
   },
   socials: [
-    { name: 'Github', href: 'https://github.com', icon: Github },
-    { name: 'Linkedin', href: 'https://linkedin.com', icon: Linkedin },
-    { name: 'Twitter', href: 'https://twitter.com', icon: Twitter },
-    { name: 'Email', href: 'mailto:contact@example.com', icon: Mail },
+    { name: 'Github', href: 'https://github.com', icon: 'Github' },
+    { name: 'Linkedin', href: 'https://linkedin.com', icon: 'Linkedin' },
+    { name: 'Twitter', href: 'https://twitter.com', icon: 'Twitter' },
+    { name: 'Email', href: 'mailto:contact@example.com', icon: 'Mail' },
   ],
   footer: {
     text: 'A professional developer portfolio showcasing expertise in building modern, scalable web applications.',
