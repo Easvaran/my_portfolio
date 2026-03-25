@@ -34,7 +34,7 @@ const About = () => {
 
           return (
             <div
-              key={index}
+              key={`stat-${stat.label}-${index}`}
               className="p-8 rounded-2xl bg-white/5 border border-white/10 flex flex-col items-center text-center group hover:bg-white/10 transition-all duration-300 backdrop-blur-sm"
             >
               <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center text-primary mb-6 group-hover:scale-110 transition-transform duration-300 shadow-inner">
@@ -58,7 +58,7 @@ const About = () => {
           <div className="space-y-6">
             <h3 className="text-3xl font-bold tracking-tight text-foreground">{detailsTitle}</h3>
             {Array.isArray(paragraphs) && paragraphs.map((paragraph: string, index: number) => (
-              <p key={index} className="text-secondary leading-relaxed text-lg">
+              <p key={`para-${index}`} className="text-secondary leading-relaxed text-lg">
                 {paragraph}
               </p>
             ))}
@@ -69,7 +69,7 @@ const About = () => {
               <div className="relative bg-black/40 p-8 rounded-3xl border border-white/10 backdrop-blur-xl">
                 <ul className="space-y-6">
                   {values.map((value: { color: string; title: string; description: string }, index: number) => (
-                    <li key={index} className="flex items-start gap-4">
+                    <li key={`val-${value.title}-${index}`} className="flex items-start gap-4">
                       <div className={`w-6 h-6 rounded-full bg-${value.color}-500/20 flex items-center justify-center text-${value.color}-500 mt-1 shrink-0`}>
                         <div className={`w-2 h-2 rounded-full bg-${value.color}-500`} />
                       </div>

@@ -84,7 +84,7 @@ const Contact = () => {
             const Icon = !isUrl && (Icons as any)[item.icon] ? (Icons as any)[item.icon] : Icons.HelpCircle;
 
             return (
-              <div key={index} className="flex items-start gap-6">
+              <div key={`contact-info-${item.label}-${index}`} className="flex items-start gap-6">
                 <div className="w-16 h-16 rounded-2xl bg-card border border-white/10 flex items-center justify-center text-primary group-hover:scale-110 transition-transform duration-300">
                   {isUrl ? (
                     <img src={item.icon} alt={item.label} className="w-8 h-8" />

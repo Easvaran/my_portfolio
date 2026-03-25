@@ -97,7 +97,9 @@ export default async function RootLayout({
       <body className="font-sans bg-background text-foreground selection:bg-primary/30 selection:text-primary">
         <ContentProvider initialContent={initialContent}>
           <VisitorTracker />
-          <BrandingManager initialBranding={initialContent.branding} />
+          {/* We handle favicon and title via generateMetadata in Next.js App Router, 
+              removing the direct DOM manipulation from BrandingManager */}
+
           <PageTransition>{children}</PageTransition>
         </ContentProvider>
       </body>
