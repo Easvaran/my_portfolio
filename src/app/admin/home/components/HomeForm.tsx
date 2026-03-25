@@ -2,7 +2,7 @@
 
 import React, { useState, useCallback } from 'react';
 import { useForm } from 'react-hook-form';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Save, Loader2, CheckCircle2, AlertCircle, Upload, Maximize2 } from 'lucide-react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
