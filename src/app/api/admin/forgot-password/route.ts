@@ -12,14 +12,22 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Email is required' }, { status: 400 });
     }
 
+    const trimmedEmail = email.trim();
+
     await connectDB();
 
-    // Check if email exists in database OR matches fallback admin email in .env.local
+    // Check if email exists in database (case-insensitive) OR matches fallback admin email in environment variables
     const adminEmailEnv = process.env.ADMIN_EMAIL;
-    const adminInDB = await Admin.findOne({ email });
+    const adminInDB = await Admin.findOne({ 
+      email: { $regex: new RegExp(`^${trimmedEmail}$`, 'i') } 
+    });
     
-    if (email !== adminEmailEnv && !adminInDB) {
+    if (adminEmailEnv && trimmedEmail.toLowerCase() !== adminEmailEnv.toLowerCase() && !adminInDB) {
       return NextResponse.json({ error: 'No admin account found with this email' }, { status: 404 });
+    }
+
+    if (!adminEmailEnv && !adminInDB) {
+      return NextResponse.json({ error: 'No admin account found' }, { status: 404 });
     }
 
     // Generate 6-digit OTP
@@ -27,13 +35,13 @@ export async function POST(req: Request) {
 
     // Store OTP in database (it will expire in 10 minutes)
     await OTP.findOneAndUpdate(
-      { email },
-      { email, otp, createdAt: new Date() },
+      { email: trimmedEmail.toLowerCase() },
+      { email: trimmedEmail.toLowerCase(), otp, createdAt: new Date() },
       { upsert: true, new: true }
     );
 
     // Send OTP via SMTP
-    const sent = await sendOTP(email, otp);
+    const sent = await sendOTP(trimmedEmail, otp);
 
     if (sent) {
       return NextResponse.json({ message: 'OTP sent successfully' });

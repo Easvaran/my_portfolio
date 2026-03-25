@@ -12,10 +12,12 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
     }
 
+    const trimmedEmail = email.trim().toLowerCase();
+
     await connectDB();
 
     // Verify OTP
-    const storedOTP = await OTP.findOne({ email, otp });
+    const storedOTP = await OTP.findOne({ email: trimmedEmail, otp });
 
     if (!storedOTP) {
       return NextResponse.json({ error: 'Invalid or expired OTP' }, { status: 401 });
@@ -23,16 +25,16 @@ export async function POST(req: Request) {
 
     // OTP is valid, update admin password in DB
     await Admin.findOneAndUpdate(
-      { email },
-      { email, password: newPassword },
+      { email: trimmedEmail },
+      { email: trimmedEmail, password: newPassword },
       { upsert: true, new: true }
     );
 
     // Delete used OTP
-    await OTP.deleteOne({ email, otp });
+    await OTP.deleteOne({ email: trimmedEmail, otp });
 
     // Send confirmation email
-    await sendPasswordChangedNotification(email);
+    await sendPasswordChangedNotification(trimmedEmail);
 
     return NextResponse.json({ message: 'Password updated successfully' });
   } catch (error) {

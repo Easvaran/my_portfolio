@@ -10,19 +10,29 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Email and password are required' }, { status: 400 });
     }
 
+    const trimmedEmail = email.trim();
+    const trimmedPassword = password.trim();
+
     await connectDB();
 
-    // 1. Check database first (for users added/edited via settings)
-    const admin = await Admin.findOne({ email, password });
+    // 1. Check database first (case-insensitive email)
+    const admin = await Admin.findOne({ 
+      email: { $regex: new RegExp(`^${trimmedEmail}$`, 'i') }, 
+      password: trimmedPassword 
+    });
+    
     if (admin) {
-      return NextResponse.json({ success: true, password });
+      return NextResponse.json({ success: true, password: admin.password });
     }
 
-    // 2. Fallback to environment variables
+    // 2. Fallback to environment variables (case-insensitive email)
     const envEmail = process.env.ADMIN_EMAIL;
     const envPassword = process.env.ADMIN_PASSWORD;
-    if (email === envEmail && password === envPassword) {
-      return NextResponse.json({ success: true, password });
+    
+    if (envEmail && envPassword) {
+      if (trimmedEmail.toLowerCase() === envEmail.toLowerCase() && trimmedPassword === envPassword) {
+        return NextResponse.json({ success: true, password: envPassword });
+      }
     }
 
     return NextResponse.json({ error: 'Invalid email or password' }, { status: 401 });

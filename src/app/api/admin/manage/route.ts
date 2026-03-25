@@ -39,8 +39,10 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Email and password are required' }, { status: 400 });
     }
 
+    const trimmedEmail = email.trim().toLowerCase();
+
     await connectDB();
-    const admin = await Admin.create({ email, password });
+    const admin = await Admin.create({ email: trimmedEmail, password });
     return NextResponse.json(admin, { status: 201 });
   } catch (error) {
     const err = error as Error;
@@ -58,8 +60,10 @@ export async function PUT(req: Request) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
+    const trimmedEmail = email.trim().toLowerCase();
+
     await connectDB();
-    const admin = await Admin.findByIdAndUpdate(id, { email, password }, { new: true });
+    const admin = await Admin.findByIdAndUpdate(id, { email: trimmedEmail, password }, { new: true });
     return NextResponse.json(admin);
   } catch (error) {
     const err = error as Error;
