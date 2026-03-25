@@ -3,10 +3,11 @@
 import React, { useState, useCallback } from 'react';
 import { useForm } from 'react-hook-form';
 import { motion } from 'framer-motion';
-import { Save, Loader2, CheckCircle2, AlertCircle, Upload } from 'lucide-react';
+import { Save, Loader2, CheckCircle2, AlertCircle, Upload, Maximize2 } from 'lucide-react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { optimizeImage } from '@/lib/image-optimizer';
+import ImageAdjuster from '@/components/ImageAdjuster';
 
 interface HomeFormProps {
   initialData: {
@@ -27,30 +28,41 @@ const HomeForm = ({ initialData }: HomeFormProps) => {
   const [message, setMessage] = useState<{ type: 'success' | 'error', text: string } | null>(null);
   const [imagePreview, setImagePreview] = useState(initialData.profileImage);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [showAdjuster, setShowAdjuster] = useState(false);
   const router = useRouter();
   const password = typeof window !== 'undefined' ? localStorage.getItem('admin_auth') : null;
 
-  const { register, handleSubmit } = useForm({
+  const { register, handleSubmit, setValue } = useForm({
     defaultValues: initialData
   });
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
+      // Direct optimize and show preview
+      const optimized = await optimizeImage(file, 1200, 1200, 0.7);
+      setImagePreview(optimized);
+      // We also store it in a temporary file-like structure or just use the optimized string
       setSelectedFile(file);
-      const reader = new FileReader();
-      reader.onloadend = () => setImagePreview(reader.result as string);
-      reader.readAsDataURL(file);
     }
+  };
+
+  const handleAdjustedImage = (base64: string) => {
+    setImagePreview(base64);
+    setShowAdjuster(false);
+    // When we adjust, we've already generated the final base64 string
+    // we don't need the original file anymore for the next submission
+    setSelectedFile(null); 
   };
 
   const onSubmit = useCallback(async (data: any) => {
     setSubmitting(true);
     setMessage(null);
 
-    let finalImageUrl = initialData.profileImage;
+    let finalImageUrl = imagePreview;
 
-    // Convert file to Base64 if a new file is selected
+    // If there's a new file that hasn't been "Adjusted" (which sets selectedFile to null),
+    // we optimize it now. If it was adjusted, imagePreview already has the correct base64.
     if (selectedFile) {
       if (selectedFile.size > 4 * 1024 * 1024) {
         setMessage({ type: 'error', text: 'Image is too large (max 4MB).' });
@@ -99,7 +111,7 @@ const HomeForm = ({ initialData }: HomeFormProps) => {
     } finally {
       setSubmitting(false);
     }
-  }, [password, router, selectedFile, initialData.profileImage]);
+  }, [password, router, selectedFile, imagePreview]);
 
   return (
     <div className="space-y-8">
@@ -133,18 +145,39 @@ const HomeForm = ({ initialData }: HomeFormProps) => {
               <label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground ml-1">Profile Image</label>
               <div className="space-y-4">
                 {imagePreview && (
-                  <div className="relative h-40 w-40 rounded-full overflow-hidden border-2 border-primary/20 mx-auto">
-                    <Image src={imagePreview} alt="Preview" fill className="object-cover" />
+                  <div className="relative group">
+                    <div className="relative h-48 w-48 rounded-full overflow-hidden border-2 border-primary/20 mx-auto shadow-2xl">
+                      <Image src={imagePreview} alt="Preview" fill className="object-cover" />
+                    </div>
+                    <button 
+                      type="button"
+                      onClick={() => setShowAdjuster(true)}
+                      className="absolute bottom-0 left-1/2 -translate-x-1/2 flex items-center gap-2 px-6 py-3 bg-black/80 backdrop-blur-md text-white rounded-full text-[10px] font-black uppercase tracking-widest hover:bg-primary transition-all border border-white/10 active:scale-95"
+                    >
+                      <Maximize2 size={14} className="text-primary" />
+                      Adjust
+                    </button>
                   </div>
                 )}
-                <label className="flex flex-col items-center justify-center gap-2 px-4 py-6 rounded-2xl bg-white/5 border border-dashed border-white/20 hover:border-primary/50 cursor-pointer transition-all">
-                  <Upload size={24} className="text-primary" />
-                  <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Upload Photo</span>
+                <label className="flex flex-col items-center justify-center gap-2 px-4 py-8 rounded-3xl bg-white/5 border border-dashed border-white/20 hover:border-primary/50 cursor-pointer transition-all group/upload">
+                  <Upload size={24} className="text-primary group-hover/upload:scale-110 transition-transform" />
+                  <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Change Photo</span>
                   <input type="file" className="hidden" accept="image/*" onChange={handleFileChange} />
                 </label>
               </div>
             </div>
           </div>
+
+          <AnimatePresence>
+            {showAdjuster && imagePreview && (
+              <ImageAdjuster 
+                imageSrc={imagePreview}
+                onConfirm={handleAdjustedImage}
+                onCancel={() => setShowAdjuster(false)}
+                circular={true}
+              />
+            )}
+          </AnimatePresence>
 
           <div className="mt-8 space-y-6">
             <div className="space-y-2">

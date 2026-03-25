@@ -6,6 +6,8 @@ import { X, Save, Loader2, Upload, Type, Tag, Link as LinkIcon, AlertCircle } fr
 import Image from 'next/image';
 import { useForm } from 'react-hook-form';
 import { optimizeImage } from '@/lib/image-optimizer';
+import ImageAdjuster from '@/components/ImageAdjuster';
+import { Maximize2 } from 'lucide-react';
 
 interface ProjectModalProps {
   isOpen: boolean;
@@ -21,6 +23,7 @@ const ProjectModal = ({ isOpen, onClose, project, onSuccess, nextOrder }: Projec
   const [error, setError] = useState<string | null>(null);
   const [imagePreview, setImagePreview] = useState<string>('');
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [showAdjuster, setShowAdjuster] = useState(false);
   
   const password = typeof window !== 'undefined' ? localStorage.getItem('admin_auth') : null;
 
@@ -52,25 +55,31 @@ const ProjectModal = ({ isOpen, onClose, project, onSuccess, nextOrder }: Projec
     }
     setSelectedFile(null);
     setError(null);
+    setShowAdjuster(false);
   }, [project, reset, nextOrder]);
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
+      const optimized = await optimizeImage(file, 1200, 1200, 0.7);
+      setImagePreview(optimized);
       setSelectedFile(file);
-      const reader = new FileReader();
-      reader.onloadend = () => setImagePreview(reader.result as string);
-      reader.readAsDataURL(file);
     }
+  };
+
+  const handleAdjustedImage = (base64: string) => {
+    setImagePreview(base64);
+    setShowAdjuster(false);
+    setSelectedFile(null);
   };
 
   const onSubmit = async (data: any) => {
     setError(null);
     setSubmitting(true);
 
-    let finalImageUrl = data.image || imagePreview;
+    let finalImageUrl = imagePreview;
 
-    if (!selectedFile && !finalImageUrl) {
+    if (!finalImageUrl) {
       setError('Please provide a project image.');
       setSubmitting(false);
       return;
@@ -187,17 +196,44 @@ const ProjectModal = ({ isOpen, onClose, project, onSuccess, nextOrder }: Projec
                     <label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground ml-1">Cover Image</label>
                     <div className="relative group aspect-video rounded-3xl overflow-hidden bg-white/5 border border-white/10">
                       {imagePreview ? (
-                        <Image src={imagePreview} alt="Preview" fill className="object-cover" />
+                        <>
+                          <Image src={imagePreview} alt="Preview" fill className="object-cover" />
+                          <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-4">
+                            <button 
+                              type="button"
+                              onClick={() => setShowAdjuster(true)}
+                              className="p-4 rounded-2xl bg-white text-black hover:bg-primary hover:text-white transition-all transform translate-y-4 group-hover:translate-y-0"
+                            >
+                              <Maximize2 size={24} />
+                            </button>
+                            <label className="p-4 rounded-2xl bg-white text-black hover:bg-primary hover:text-white transition-all transform translate-y-4 group-hover:translate-y-0 cursor-pointer">
+                              <Upload size={24} />
+                              <input type="file" className="hidden" accept="image/*" onChange={handleFileChange} />
+                            </label>
+                          </div>
+                        </>
                       ) : (
-                        <div className="absolute inset-0 flex flex-col items-center justify-center text-muted-foreground gap-2">
+                        <label className="absolute inset-0 flex flex-col items-center justify-center text-muted-foreground gap-2 cursor-pointer hover:bg-white/5 transition-all">
                           <Upload size={32} />
                           <span className="text-[10px] font-black uppercase">Upload Image</span>
-                        </div>
+                          <input type="file" className="hidden" accept="image/*" onChange={handleFileChange} />
+                        </label>
                       )}
-                      <input type="file" onChange={handleFileChange} accept="image/*" className="absolute inset-0 opacity-0 cursor-pointer" />
                     </div>
                   </div>
                 </div>
+
+                <AnimatePresence>
+                  {showAdjuster && imagePreview && (
+                    <ImageAdjuster 
+                      imageSrc={imagePreview}
+                      onConfirm={handleAdjustedImage}
+                      onCancel={() => setShowAdjuster(false)}
+                      aspectRatio={16/9}
+                      circular={false}
+                    />
+                  )}
+                </AnimatePresence>
 
                 <div className="space-y-2">
                   <label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground ml-1">Project Description</label>

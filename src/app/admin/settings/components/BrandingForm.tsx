@@ -2,10 +2,12 @@
 
 import React, { useState, useCallback } from 'react';
 import { useForm } from 'react-hook-form';
-import { Globe, Save, Loader2, Upload } from 'lucide-react';
+import { Globe, Save, Loader2, Upload, Maximize2 } from 'lucide-react';
 import Image from 'next/image';
 import { optimizeImage } from '@/lib/image-optimizer';
 import { useRouter } from 'next/navigation';
+import ImageAdjuster from '@/components/ImageAdjuster';
+import { AnimatePresence } from 'framer-motion';
 
 interface BrandingFormProps {
   initialData: {
@@ -17,6 +19,7 @@ interface BrandingFormProps {
 const BrandingForm = ({ initialData }: BrandingFormProps) => {
   const [submitting, setSubmitting] = useState(false);
   const [logoPreview, setLogoPreview] = useState(initialData.logo);
+  const [showAdjuster, setShowAdjuster] = useState(false);
   const router = useRouter();
   const password = typeof window !== 'undefined' ? localStorage.getItem('admin_auth') : null;
 
@@ -29,12 +32,18 @@ const BrandingForm = ({ initialData }: BrandingFormProps) => {
     if (!file) return;
 
     try {
-      const optimized = await optimizeImage(file, 200, 200, 0.8);
+      const optimized = await optimizeImage(file, 400, 400, 0.8);
       setLogoPreview(optimized);
       setValue('logo', optimized);
     } catch (err) {
       console.error('Logo processing failed:', err);
     }
+  };
+
+  const handleAdjustedLogo = (base64: string) => {
+    setLogoPreview(base64);
+    setValue('logo', base64);
+    setShowAdjuster(false);
   };
 
   const onSubmit = useCallback(async (data: any) => {
@@ -90,11 +99,20 @@ const BrandingForm = ({ initialData }: BrandingFormProps) => {
             <label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground ml-1">Favicon / Logo</label>
             <div className="flex items-center gap-6">
               {logoPreview && (
-                <div className="relative h-16 w-16 rounded-xl overflow-hidden bg-white/5 border border-white/10 flex items-center justify-center">
-                  <Image src={logoPreview} alt="Logo" width={40} height={40} className="object-contain" />
+                <div className="relative group shrink-0">
+                  <div className="relative h-20 w-20 rounded-2xl overflow-hidden bg-white/5 border border-white/10 flex items-center justify-center shadow-xl">
+                    <Image src={logoPreview} alt="Logo" width={60} height={60} className="object-contain" />
+                  </div>
+                  <button 
+                    type="button"
+                    onClick={() => setShowAdjuster(true)}
+                    className="absolute -bottom-2 -right-2 p-2 rounded-xl bg-primary text-white shadow-lg opacity-0 group-hover:opacity-100 transition-all scale-75 group-hover:scale-100"
+                  >
+                    <Maximize2 size={14} />
+                  </button>
                 </div>
               )}
-              <label className="flex-grow flex items-center justify-center gap-3 px-6 py-4 rounded-2xl bg-white/5 border border-dashed border-white/20 hover:border-primary/50 cursor-pointer transition-all group/upload">
+              <label className="flex-grow flex items-center justify-center gap-3 px-6 py-6 rounded-3xl bg-white/5 border border-dashed border-white/20 hover:border-primary/50 cursor-pointer transition-all group/upload">
                 <Upload size={20} className="text-primary group-hover/upload:scale-110 transition-transform" />
                 <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Upload Icon</span>
                 <input type="file" className="hidden" accept="image/*" onChange={handleLogoUpload} />
@@ -102,6 +120,17 @@ const BrandingForm = ({ initialData }: BrandingFormProps) => {
             </div>
           </div>
         </div>
+
+        <AnimatePresence>
+          {showAdjuster && logoPreview && (
+            <ImageAdjuster 
+              imageSrc={logoPreview}
+              onConfirm={handleAdjustedLogo}
+              onCancel={() => setShowAdjuster(false)}
+              circular={false}
+            />
+          )}
+        </AnimatePresence>
 
         <button
           type="submit"
