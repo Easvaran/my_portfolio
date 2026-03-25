@@ -216,6 +216,13 @@ export default function AdminProjects() {
 
     // Convert file to Base64 if a new file is selected (for Vercel compatibility)
     if (selectedFile) {
+      // Check file size (Vercel limit is 4.5MB for body)
+      if (selectedFile.size > 4 * 1024 * 1024) {
+        setError('Image is too large (max 4MB). Please compress it or use a URL instead.');
+        setSubmitting(false);
+        return;
+      }
+
       setUploading(true);
       try {
         // We use a Promise to handle the FileReader as an async operation

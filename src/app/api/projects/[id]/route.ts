@@ -9,7 +9,14 @@ export async function PUT(
 ) {
   try {
     const { id } = await params;
-    const body = await req.json();
+    
+    let body;
+    try {
+      body = await req.json();
+    } catch (parseErr) {
+      return NextResponse.json({ error: 'Invalid JSON payload' }, { status: 400 });
+    }
+
     const { title, description, image, tags, live, github, order, password } = body;
 
     const isAuthorized = await verifyAdminPassword(password);
@@ -17,10 +24,23 @@ export async function PUT(
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
+    // Basic validation
+    if (!title || !description || !image || !live || !github) {
+      return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
+    }
+
     await connectDB();
     const project = await Project.findByIdAndUpdate(
       id,
-      { title, description, image, tags, live, github, order },
+      { 
+        title, 
+        description, 
+        image, 
+        tags: Array.isArray(tags) ? tags : [], 
+        live, 
+        github, 
+        order: order || 0 
+      },
       { new: true }
     );
 
@@ -30,7 +50,8 @@ export async function PUT(
 
     return NextResponse.json(project);
   } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    console.error('PUT /api/projects/[id] error:', error);
+    return NextResponse.json({ error: error.message || 'Internal Server Error' }, { status: 500 });
   }
 }
 

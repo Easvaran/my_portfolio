@@ -31,7 +31,15 @@ export async function POST(req: Request) {
     if (!db) {
       return NextResponse.json({ error: 'Service Unavailable' }, { status: 503 });
     }
-    const body = await req.json();
+    
+    let body;
+    try {
+      body = await req.json();
+    } catch (parseErr) {
+      console.error('Request JSON parse error:', parseErr);
+      return NextResponse.json({ error: 'Invalid JSON payload' }, { status: 400 });
+    }
+
     const { title, description, image, tags, live, github, order, password } = body;
 
     const isAuthorized = await verifyAdminPassword(password);
@@ -39,23 +47,27 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
+    // Basic validation
+    if (!title || !description || !image || !live || !github) {
+      return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
+    }
+
     const project = await Project.create({
       title,
       description,
       image,
-      tags,
+      tags: Array.isArray(tags) ? tags : [],
       live,
       github,
       order: order || 0,
     });
 
     return NextResponse.json(project, { status: 201 });
-  } catch (error) {
-    const err = error as Error;
-    console.error('POST /api/projects error:', err.message);
+  } catch (error: any) {
+    console.error('POST /api/projects error:', error);
     return NextResponse.json({ 
-      error: 'CREATE_ERROR',
-      message: err.message || 'Unknown error' 
+      error: 'SERVER_ERROR',
+      message: error.message || 'Internal Server Error' 
     }, { status: 500 });
   }
 }

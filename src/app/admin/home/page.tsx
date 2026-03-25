@@ -76,6 +76,13 @@ export default function HomeSettings() {
 
     // Convert file to Base64 if a new file is selected (for Vercel compatibility)
     if (selectedFile) {
+      // Check file size (Vercel limit is 4.5MB for body)
+      if (selectedFile.size > 4 * 1024 * 1024) {
+        setMessage({ type: 'error', text: 'Image is too large (max 4MB). Please compress it.' });
+        setSubmitting(false);
+        return;
+      }
+
       try {
         const base64Image = await new Promise<string>((resolve, reject) => {
           const reader = new FileReader();
