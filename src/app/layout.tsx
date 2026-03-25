@@ -15,7 +15,6 @@ const geistMono = Geist_Mono({
 import PageTransition from "@/components/PageTransition";
 import { ContentProvider } from "@/context/ContentContext";
 import VisitorTracker from "@/components/VisitorTracker";
-import BrandingManager from "@/components/BrandingManager";
 import { getInitialContent } from "@/lib/data-fetchers";
 
 export async function generateMetadata(): Promise<Metadata> {
