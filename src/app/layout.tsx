@@ -12,66 +12,72 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-  metadataBase: new URL('https://portfolio-example.com'),
-  title: {
-    default: "Professional Developer Portfolio | Full-Stack Expert",
-    template: "%s | Alex Johnson"
-  },
-  description: "I'm a passionate full-stack developer with a focus on building modern, performant web applications using Next.js, React, and MongoDB.",
-  keywords: ["Next.js", "React", "TypeScript", "Full-Stack Developer", "Portfolio", "Web Development", "MongoDB"],
-  authors: [{ name: "Alex Johnson" }],
-  creator: "Alex Johnson",
-  openGraph: {
-    title: "Professional Developer Portfolio",
-    description: "Building modern, scalable web applications with cutting-edge technologies.",
-    url: 'https://portfolio-example.com',
-    siteName: 'Alex Johnson Portfolio',
-    images: [
-      {
-        url: '/og-image.png', // Make sure to add this image to public folder
-        width: 1200,
-        height: 630,
-        alt: 'Alex Johnson Portfolio',
-      },
-    ],
-    type: "website",
-    locale: "en_US",
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'Alex Johnson | Full-Stack Developer',
-    description: 'Building modern, scalable web applications with cutting-edge technologies.',
-    creator: '@alexjohnson', // Replace with actual handle
-    images: ['/og-image.png'],
-  },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      'max-video-preview': -1,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
-    },
-  },
-  icons: {
-    icon: [
-      { url: '/api/branding/favicon', type: 'image/png' },
-    ],
-    shortcut: '/api/branding/favicon',
-    apple: [
-      { url: '/api/branding/favicon', type: 'image/png' },
-    ],
-  },
-};
-
 import PageTransition from "@/components/PageTransition";
 import { ContentProvider } from "@/context/ContentContext";
 import VisitorTracker from "@/components/VisitorTracker";
 import BrandingManager from "@/components/BrandingManager";
 import { getInitialContent } from "@/lib/data-fetchers";
+
+export async function generateMetadata(): Promise<Metadata> {
+  const content = await getInitialContent();
+  const timestamp = new Date().getTime();
+  const faviconUrl = `/api/branding/favicon?v=${timestamp}`;
+
+  return {
+    metadataBase: new URL('https://portfolio-example.com'),
+    title: {
+      default: content.branding?.heading || "Professional Developer Portfolio",
+      template: `%s | ${content.branding?.heading || "Alex Johnson"}`
+    },
+    description: content.hero?.description || "I'm a passionate full-stack developer with a focus on building modern, performant web applications.",
+    keywords: ["Next.js", "React", "TypeScript", "Full-Stack Developer", "Portfolio", "Web Development", "MongoDB"],
+    authors: [{ name: content.hero?.name || "Alex Johnson" }],
+    creator: content.hero?.name || "Alex Johnson",
+    openGraph: {
+      title: content.branding?.heading || "Professional Developer Portfolio",
+      description: content.hero?.description || "Building modern, scalable web applications with cutting-edge technologies.",
+      url: 'https://portfolio-example.com',
+      siteName: content.branding?.heading || 'Alex Johnson Portfolio',
+      images: [
+        {
+          url: '/og-image.png',
+          width: 1200,
+          height: 630,
+          alt: content.branding?.heading || 'Alex Johnson Portfolio',
+        },
+      ],
+      type: "website",
+      locale: "en_US",
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${content.hero?.name || 'Alex Johnson'} | Full-Stack Developer`,
+      description: content.hero?.description || 'Building modern, scalable web applications with cutting-edge technologies.',
+      creator: '@alexjohnson',
+      images: ['/og-image.png'],
+    },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        'max-video-preview': -1,
+        'max-image-preview': 'large',
+        'max-snippet': -1,
+      },
+    },
+    icons: {
+      icon: [
+        { url: faviconUrl, type: 'image/png' },
+      ],
+      shortcut: faviconUrl,
+      apple: [
+        { url: faviconUrl, type: 'image/png' },
+      ],
+    },
+  };
+}
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
