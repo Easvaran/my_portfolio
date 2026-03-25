@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import connectDB from '@/lib/mongodb';
 import Contact from '@/models/Contact';
 import { revalidatePath } from 'next/cache';
+import { verifyAdminPassword } from '@/lib/auth';
 
 export const dynamic = 'force-dynamic';
 
@@ -14,7 +15,8 @@ export async function PUT(
     const body = await req.json();
     const { name, email, message, password } = body;
 
-    if (password !== process.env.ADMIN_PASSWORD) {
+    const isAuthorized = await verifyAdminPassword(password);
+    if (!isAuthorized) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
@@ -49,7 +51,8 @@ export async function DELETE(
     const { id } = await params;
     const password = req.nextUrl.searchParams.get('password');
 
-    if (password !== process.env.ADMIN_PASSWORD) {
+    const isAuthorized = await verifyAdminPassword(password);
+    if (!isAuthorized) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
