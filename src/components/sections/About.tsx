@@ -1,5 +1,6 @@
 'use client';
 
+import { motion } from 'framer-motion';
 import Section from '../Section';
 import { useContent } from '@/context/ContentContext';
 import * as Icons from 'lucide-react';
