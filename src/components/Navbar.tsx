@@ -80,13 +80,6 @@ const Navbar = () => {
           {navigation.map((link: { name: string; href: string }) => (
             <NavLink key={link.name} link={link} />
           ))}
-          <Link
-            href="/admin"
-            prefetch={false}
-            className="px-5 py-2 rounded-full bg-primary/10 text-primary hover:bg-primary hover:text-white transition-all text-sm font-bold border border-primary/20"
-          >
-            Admin
-          </Link>
         </div>
 
         {/* Mobile Menu Toggle */}
@@ -113,14 +106,6 @@ const Navbar = () => {
               {navigation.map((link: { name: string; href: string }) => (
                 <NavLink key={link.name} link={link} onClick={closeMenu} mobile />
               ))}
-              <Link
-                href="/admin"
-                onClick={closeMenu}
-                prefetch={false}
-                className="text-lg font-bold text-primary border-t border-white/5 pt-4"
-              >
-                Admin Panel
-              </Link>
             </div>
           </motion.div>
         )}
